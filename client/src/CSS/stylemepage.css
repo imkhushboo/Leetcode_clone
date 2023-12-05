@@ -1,0 +1,16 @@
+.Personal-details{
+    display: flex;
+    height :90vh;
+    justify-content: space-around;
+}
+
+.Personal-details .left
+{
+    background-color: darkblue;
+    width : 20vh;
+}
+
+.Personal-details .right{
+
+    width: 70vh;
+}

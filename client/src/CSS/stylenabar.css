@@ -1,0 +1,70 @@
+.maxi_nav{
+    font-size:1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #67729D;
+    height: 10vh;
+    align-items: center;
+}
+
+.maxi_nav .mini_nav{
+    width :50%;
+    height:100%;
+}
+
+.maxi_nav .mini_nav ul{
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    list-style: none;
+    
+}
+
+button{
+    cursor: pointer;
+    background-color :yellow;
+    border: 2px solid limegreen;
+    width: 48%;
+    height:60%;
+    border-radius: 5px;
+
+}
+
+.maxi_nav .mini_nav ul li {
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color:#EAD7BB;
+   
+    
+    
+}
+
+li a{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color:#EAD7BB;
+}
+
+
+.maxi_nav .mini_nav ul li :hover , a:hover{
+    color :red;
+}
+
+
+
+.avatar
+{
+    display: flex;
+    width:20%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-around;
+}

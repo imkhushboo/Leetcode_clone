@@ -1,0 +1,31 @@
+.home{
+  
+   
+    height: 80vh;
+    margin: auto;
+    margin-top: 5%;
+    width: 98%;
+    overflow-y: scroll;
+}
+
+
+.blog-box
+{
+    display: flex;
+    flex-direction: column;
+   justify-content: space-around;
+    height: 20%;
+    border: 1px solid  gray;
+    width: 98%;
+}
+
+h1{
+    height: 10%;
+    text-align: center;
+}
+
+.title ,.date ,.description{
+    height: 30%;
+    margin-left: 3px;
+}
+
