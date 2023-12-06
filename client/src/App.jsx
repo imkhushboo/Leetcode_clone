@@ -12,6 +12,7 @@ import Me from "./Components/Me";
 import Loginprotected from "./middleware/Loginprotected";
 import Blog from "./Components/Blog";
 import Allsubmission from "./Components/Allsubmission";
+import Pagenotfound from "./Components/Pagenotfound";
 
 
 
@@ -44,12 +45,13 @@ function App() {
     <Routes>
     <Route exact path="/problemSet/all"  element={<Home />}  />
     <Route path="/problem/:1" element={<Page/>} />
-    <Route exact path="/signup" element={<SignUp/>} />
+    <Route  path="/signup" element={<SignUp/>} />
     <Route exact path="/login" element={<Login/>} />
     <Route path="/problems/:1/submissions" element={<Submission />} />
     <Route exact path='/me' element={<Loginprotected><Me/></Loginprotected>} />
     <Route  exact path ='/blog' element={<Blog/>} />
-    <Route exact path="/submissions" element={<Allsubmission />} ></Route>
+    <Route exact path="/submissions" element={<Loginprotected><Allsubmission /></Loginprotected>} ></Route>
+    <Route exact path='/pagenotfound' element={<Pagenotfound/>} />
     </Routes>
     </BrowserRouter> 
   )

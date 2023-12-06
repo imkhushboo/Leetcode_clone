@@ -48,7 +48,8 @@ function Login() {
         navigate(0);
 
         }catch(err)
-        {
+        {  
+          alert(err);
           console.log(err);
         }
 
