@@ -8,6 +8,78 @@
     overflow-y: scroll;
 }
 
+#modal{
+    height: 50vh;
+    width: 70%;
+    margin: auto;
+}
+.modal-modal{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height: 100%;
+    justify-content: space-between;
+
+}
+
+hr{
+    height: 0.5px;
+    background-color: gray;
+    width: 98%;
+    
+}
+.top{
+    height: 20%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+
+}
+
+.blog-body{
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-footer{
+    height: 20%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.blog-footer button{
+    width: 20%;
+    margin: 0px 2px 0px 2px;
+}
+
+.blog-body label , input,textarea{
+    height: 20%;
+    margin:auto;
+    width: 93%;
+}
+
+textarea{
+    height: 40%;
+    resize: none;
+    
+}
+#title-heading ,#close-button{
+    height: 80%;
+    width: 20%;
+   
+}
+
+.top-title{
+    display: flex;
+    height: 10%;
+    justify-content: space-between;
+    width: 98%;
+    align-items: center;
+
+}
 
 .blog-box
 {
@@ -17,11 +89,17 @@
     height: 20%;
     border: 1px solid  gray;
     width: 98%;
+    margin-top: auto;
 }
 
 h1{
-    height: 10%;
+    height: 100%;
     text-align: center;
+    margin:auto;
+}
+
+.top-title button{
+    width: 10%;
 }
 
 .title ,.date ,.description{
