@@ -8,7 +8,6 @@ function Home() {
     const [problems,setProblems ] = useState([]);
     const [pageno,setPageno] = useState(1);
     useEffect(()=>{
-        setPageno(1);
         fetchproblems();
        
     },[])
@@ -17,7 +16,7 @@ function Home() {
     const fetchproblems = async() => {
 
         try{
-            console.log(pageno);
+           
             const response  = await fetch(`http://localhost:3001/problemSet/all/:${pageno}`,{
                 method : 'POST',
             })

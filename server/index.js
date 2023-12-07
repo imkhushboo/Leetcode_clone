@@ -104,6 +104,9 @@ const SUBMISSIONS = [
 
 ]
 
+
+const BLOGS = []
+
 app.post('/signup', async (req, res) => {
     // Add logic to decode body
     // body should have email and password
@@ -190,7 +193,7 @@ app.post('/problemSet/all/:pageno', async (req, res) => {
     try {
         console.log(req.params);
         pageno = parseInt(req.params.pageno[1]);
-        console.log(pageno);
+        // console.log(pageno);
         const start = pageno * 50 - 49;
         const end = pageno * 50;
         console.log(start, end);
@@ -202,7 +205,7 @@ app.post('/problemSet/all/:pageno', async (req, res) => {
             Acceptance: x.Acceptance,
             Difficulty: x.Difficulty
         }))
-        console.log(filteredproblems);
+        // console.log(filteredproblems);
         res.status(200).json(filteredproblems);
     }
     catch (err) {
@@ -219,9 +222,9 @@ app.get('/problem/:id', async (req, res) => {
 
     try {
         const id = parseInt(req.params.id.split(':')[1]);
-        console.log(id);
+        // console.log(id);
         const problem = QUESTIONS.filter(x => x._id === id);
-        console.log(problem);
+        // console.log(problem);
         if (!problem) {
             const err = 'No such Problems exist';
             throw err;
@@ -396,6 +399,138 @@ app.post("/submissions", authUser, (req, res) => {
 
 
 // })
+
+
+
+
+
+
+
+// blog section
+
+
+app.get('/blog', async (req, res) => {
+    try {
+        // console.log('blogs', BLOGS);
+        const temp = BLOGS.map(x => x.blog.map(y => {
+            const obj = {
+                blog_id: y.blog_id,
+                blog_detail: y.blog_detail
+            }
+            return obj;
+        }))
+        // console.log('temp', temp)
+
+        let final_temp = [].concat(...temp);
+        final_temp = final_temp.sort((a, b) => { a.blog_detail.time < b.blog_detail.time })
+        // console.log(final_temp);
+
+        res.status(200).json(final_temp);
+
+    } catch (err) {
+        res.status(500).json({ msg: err });
+    }
+})
+
+app.delete('/blog/delete/:id', authUser, async (req, res) => {
+    try {
+        const user = req.user;
+        const id = user.userId;
+        const blogid = parseInt(req.params.id.split(':')[1]);
+
+        console.log(blogid);
+
+
+        const userdetails = BLOGS.find(x => x._id === id);
+
+        if (userdetails) {
+            const index = BLOGS.findIndex(x => x._id === id);
+
+            const blogdetails = BLOGS[index].blog.find(x => x.blog_id === blogid);
+
+            if (!blogdetails) {
+                const err = 'No such blog exist !!';
+                throw err;
+            }
+            else {
+                let temp = BLOGS[index].blog.filter(x => x.blog_id !== blogid);
+                let len = 1;
+                temp = temp.map(x => {
+                    const obj = {
+                        blog_id: len++,
+                        blog_detail: x.blog_detail
+                    }
+                    return obj;
+                })
+
+                console.log(temp);
+
+                BLOGS[index].blog = temp;
+
+                console.log(BLOGS[index].blog);
+            }
+        }
+        else {
+            const err = 'No such user exist';
+            throw err;
+        }
+
+        console.log(BLOGS);
+
+        res.status(200).json({ msg: 'Succesfully Deleted!!' });
+
+
+    } catch (err) {
+        res.status(500).json({ msg: err });
+    }
+})
+
+app.put('/blog/add', authUser, async (req, res) => {
+    try {
+        // console.log(req);
+        const user = req.user;
+        const id = user.userId;
+        const email = user.email;
+        const blogid = req.body.blogid;
+        // console.log(req.header("auth-token"));
+        const blog = req.body.blogdetail;
+
+        // console.log(blogid)
+
+        // console.log(blog);
+
+        const user_details = BLOGS.find(x => x._id === id);
+
+        if (!user_details) {
+            BLOGS.push({ _id: id, email, blog: [{ blog_id: 1, blog_detail: blog }] });
+        }
+        else {
+            const index = BLOGS.findIndex(x => x._id === id);
+
+            const blogdetails = BLOGS[index].blog.find(x => x.blog_id === blogid);
+            if (blogdetails) {
+                const blogindex = BLOGS[index].blog.findIndex(x => x.blog_id === blogid);
+                // console.log(blogindex);
+                BLOGS[index].blog[blogindex].blog_detail = blog;
+            }
+            else {
+                const length = BLOGS[index].blog.length;
+                BLOGS[index].blog.push({ blog_id: length + 1, blog_detail: blog })
+            }
+
+        }
+
+
+        // console.log(BLOGS);
+        res.status(200).json(BLOGS);
+
+    } catch (err) {
+        res.status(500).json({ msg: err });
+    }
+})
+
+
+
 
 app.listen(port, async () => {
     console.log(`Example app listening on port ${port}`)

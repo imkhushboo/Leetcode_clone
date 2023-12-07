@@ -92,6 +92,26 @@ textarea{
     margin-top: auto;
 }
 
+.blog-box-body{
+    height: 80%;
+}
+.blog-box-footer{
+    display: flex;
+    height: 25%;
+    justify-content: flex-end;
+}
+#update{
+    background-color: gray;
+}
+#delete{
+    background-color: red;
+    color:white;
+}
+
+.blog-box-footer button{
+   width: 20%;
+   height: 100%;
+}
 h1{
     height: 100%;
     text-align: center;

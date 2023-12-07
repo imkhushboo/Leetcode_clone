@@ -18,11 +18,8 @@ fetchUser = async (req, res, next) => {
 
 authUser = async (req, res, next) => {
     try {
-        console.log(req.headers);
         const token = req.headers.authorization.split(' ')[1];
-        console.log(token);
-        console.log(token);
-        const data = await jwt.verify(token, JWT_S);
+        const data = jwt.verify(token, JWT_S);
         if (!data) {
             const err = 'Authentication Failed !!';
             throw err;
