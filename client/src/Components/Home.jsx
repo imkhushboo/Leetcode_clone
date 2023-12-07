@@ -41,6 +41,8 @@ function Home() {
 
     return (
         <div className='top-top-problem-render'>
+          <div className="top-heading"> Problems</div>
+          <hr />
             <div className='top_problem_render'>
       <div className='problem_render'>
       <table>
