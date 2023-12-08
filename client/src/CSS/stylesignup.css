@@ -10,6 +10,53 @@
     height :90vh;
     
    }
+
+   .detail-input{
+    display: flex;
+    height: 48%;
+   }
+
+ .error{
+    height:100% ;
+    width: 10%;
+    margin: 2%;
+ }  
+
+
+
+#tooltip-error{
+    height: 100%;
+    color: red;
+}
+#tooltip-correct
+{
+    height: 100%;
+    color:green;
+    width: 100%;
+}
+
+.tooltiptext-error{
+  
+    visibility: hidden;
+    max-width: 150px;
+    background-color:  red;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 5px;
+    height: fit-content;
+    font-size: small;
+    border: 2px solid black;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+   #tooltip-error:hover .tooltiptext-error{
+    visibility: visible;
+  }
+
  
 
    .form{
