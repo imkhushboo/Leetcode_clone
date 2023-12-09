@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import '../CSS/stylesignup.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Toaster, toast } from 'react-hot-toast';
+import HelperContext from '../context/helperContext';
 
 
 function passwordverify( password) {
@@ -54,9 +55,7 @@ function passwordverify( password) {
 
 function SignUp() {
     const navigate = useNavigate();
-    const [email ,setEmail ] = useState();
-    const [password ,setPassword] = useState();
-
+    const {signupUser}=useContext(HelperContext)
     const formik = useFormik({
         initialValues: {
             "email":"",
@@ -107,42 +106,7 @@ function SignUp() {
         
       }});
 
-   const signupUser = async ({email,password})=>{
-    try{
-        console.log(email,password);
-        
-         const response=  await fetch("http://localhost:3001/signup",{
-            method : 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-
-            body : JSON.stringify({
-                email,password
-            })
-        });
-
-        
-        const json= await response.json();
-        
-        if(response.status !=200)
-        {
-            const err = json.msg;
-            throw err;
-        }
-        // setTimeout(()=>{
-        //     navigate('/login');
-        // },1000);
-
-        return {status:200,message:'SuccessFull!!'}
-        
-        
-    }
-    catch(err)
-    {
-          return {status:500,message:err};
-   }
-}
+   
    
 
   return (

@@ -1,10 +1,11 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect, useContext} from 'react';
 import '../CSS/stylesignup.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Toaster, toast } from 'react-hot-toast';
+import HelperContext from '../context/helperContext';
 
 
 function passwordverify( password) {
@@ -53,15 +54,13 @@ function passwordverify( password) {
 
 
 function Login() {
-    const  [email,setEmail] = useState();
-    const [password,setPassword] = useState();
-    const [token,setToken] = useState();
+    const {profile,LogIn} = useContext(HelperContext)
     const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
-            email: "",
-            password: "",
+            email: profile.email,
+            password: profile.password,
         },
        
         validationSchema: Yup.object().shape({
@@ -82,18 +81,12 @@ function Login() {
         }),
         onSubmit:async(values) => {
             values = Object.assign(values);
-            console.log(values);
-            let response = await loginUser({email: values.email,password: values.password});
-            console.log(response);
+            let response = await LogIn({email: values.email,password: values.password});
             if(response.status === 200)
             {
                 toast.success("Login  Successfully!");
-                localStorage.setItem("token",response.token);
-                setToken(response.token);
-                console.log(response.token);
                 setTimeout(()=>{
                     navigate('/problemSet/all');
-                    navigate(0);
                 },1000);
                
             }
@@ -111,47 +104,14 @@ function Login() {
     });
 
     useEffect(()=>{
-        if(localStorage.getItem('token'))
+        if(profile.token !==null)
         {
             
             navigate('/problemSet/all');
         }
-       
     },[])
 
-    const loginUser= async({email,password})=>{
-       
-        try{
-            const response= await fetch("http://localhost:3001/login",{
-            method : 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-
-            body : JSON.stringify({
-                email,password
-            })
-        });
-
-       
-        const json = await response.json();
-
-        if(response.status !=200)
-        {
-            const err = json.msg;
-            throw err;
-        }
-        return {status:200,token:json};
-        
-
-        }catch(err)
-        {  
-          alert(err);
-          console.log(err);
-          return {status:500,message:err};
-        }
-
-    }
+    
   return (
       <div className='login'>
         <Toaster toastOptions={{
@@ -183,7 +143,7 @@ function Login() {
         <label htmlFor="password" >Password : </label>
         <div className="detail-input">
         <Field id="password" type="password" placeholder='Enter Password'  onBlur={formik.handleBlur} value={formik.values.password}  onChange={formik.handleChange} />
-        {formik.touched.email?
+        {formik.touched.password?
         <div className="error">
                     {formik.errors.password ? 
                      <i id="tooltip-error" className="fa-solid fa-circle-xmark"> <span className='tooltiptext-error'>{formik.errors.password}</span></i>:

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "../CSS/stylepage.css";
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import HelperContext from '../context/helperContext';
 
 function Page() {
     const inital_text = `
@@ -14,102 +15,25 @@ function Page() {
 
     const initial_testcase = ` 1 2 3`;
     const [text,setText] = useState(inital_text);
-    const [testcase,setTestcase] = useState(initial_testcase);
-    const [problems,setProblems] = useState([]);
-    const [id,setId] = useState(1);
-    const [token,setToken] = useState();
+    const[testcase,setTestcase] = useState(initial_testcase);
+     const {profile,setProfile,submitProblemcode,showproblems} = useContext(HelperContext);
     const location = useLocation();
+   
     const navigate = useNavigate();
+    const id = location.pathname.split(':')[1];
 
 
 
   useEffect(()=>{
-    const problem_id = location.pathname.split(':')[1];
-    console.log(problem_id);
-
-    setToken(localStorage.getItem('token'));
-    // props= {problem_id :1};
-    setId(problem_id);
-    const showproblems = async()=>{
-    try{
-
-        const response = await fetch(`http://localhost:3001/problem/:${problem_id}`,{
-            method : 'GET',
-
-        })
-
-        const json = await response.json();
-
-        if(response.status != 200)
-        {
-            const err = json.msg;
-            throw err;
-        }
-
-        setProblems(json.problem);
-        
-
-    }catch(err)
-    {
-        console.log(err);
-    }
-}
-showproblems();
+    showproblems(id);
     },[]);
 
 
     const runtestcase =() =>{
-
-
         alert('ACCEPT SOLUTION');
-
-
-       
-
     }
 
-    const submitcode = async() =>{
-        try{
-            console.log(text);
-            const response = await fetch(`http://localhost:3001/submit/:${id}`,{
-                method : 'POST',
-                headers :  {
-                'Access-Control-Allow-Origin': "*",
-                "Content-Type": "application/json",
-                 "Authorization": `Bearer ${token}` },
-                
-                body : JSON.stringify({
-                    solution : text
-                })
-
-            })
-
-            const json = await response.json();
-
-            if(response.status != 200)
-            {
-                const err = 'some error occured!';
-                throw err;
-            }
-             
-            console.log(json);
-            console.log(json.Acceptance);
-            
-            if(json.Acceptance === 'Accepted')
-            {
-                alert('Accepted');
-            }
-            else{
-                alert('Rejected');
-            }
-
-        }catch(err)
-        {
-            alert('Error occured !');
-           console.log(err);
-        }
-    }
-
+    
 
 
 
@@ -121,9 +45,9 @@ showproblems();
             <li>Description</li>
             <li onClick = {()=>{navigate(`/problems/:${id}/submissions`)}}>Submission</li>
         </ul>
-        {problems.map(problem =>
+        {profile.problems.map(problem =>
         <RenderProblems
-           key = {problems._id}
+           key = {profile.problems._id}
            Title = {problem.Title}
            description = {problem.description}
            Examples = {problem.Examples}
@@ -151,7 +75,7 @@ showproblems();
         </div>
         <div id='btn'>
                 <button onClick = {runtestcase} type ='submit'>Run code</button>
-                <button onClick = {submitcode}type='submit'>Submit Code</button>
+                <button onClick = {()=>{submitProblemcode({text,problem_id:id})}}type='submit'>Submit Code</button>
             </div>
       
     </div>
@@ -184,9 +108,8 @@ function RenderProblems(props)
         </div>
         <div className='constraints'>
         <h3 className='title-constraint'>Constraints: </h3>
-        <div className='const-desc'>
-        <p className='constraint-description'>{props.Constraints}</p>
-        </div>
+        <div className='constraint-description'>{props.Constraints}</div>
+
        
         </div>
        

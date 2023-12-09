@@ -1,42 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "../CSS/stylehome.css";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
+import HelperContext from '../context/helperContext';
 
 function Home() {
-    const navigate = useNavigate();
-    const [problems,setProblems ] = useState([]);
-    const [pageno,setPageno] = useState(1);
+      const {profile,fetchproblems} = useContext(HelperContext);
     useEffect(()=>{
-        fetchproblems();
-       
+        fetchproblems(1);
     },[])
 
 
-    const fetchproblems = async() => {
-
-        try{
-           
-            const response  = await fetch(`http://localhost:3001/problemSet/all/:${pageno}`,{
-                method : 'POST',
-            })
-
-            const json  = await response.json();
-            // console.log(json);
-
-            if(response.status != 200)
-            {
-                const err = json.msg;
-                throw err;
-            }
-
-            setProblems(json);
-        }catch(err)
-        {
-            console.log(err);
-        }
-
-    }
+    
 
 
     return (
@@ -52,7 +26,7 @@ function Home() {
             <th> Acceptance</th>
         </tr>
       
-        { problems.map(problem=>
+        { profile.problems.map(problem=>
              <RenderProblems 
                _id={problem._id}
                Title = {problem.Title}
@@ -68,12 +42,10 @@ function Home() {
       </div>
        <div className='toggle_problems'>
        <button onClick={()=>{
-        setPageno(1);
-        fetchproblems();
+        fetchproblems(1);
        }}>1</button>
       <button onClick={()=>{
-        setPageno(2);
-         fetchproblems();
+         fetchproblems(2);
       }}>2</button>
       </div>
       </div>

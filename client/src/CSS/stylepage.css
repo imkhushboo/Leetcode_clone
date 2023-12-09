@@ -24,7 +24,7 @@
 }
 
 .problem2 h2{
-    height: 10%;
+    height: fit-content;
 }
 
 .top_bar .problem_desc .problem2{
@@ -43,16 +43,16 @@
 }
 
 .title-example{
-    height: 20%;
+    height: fit-content;
 }
 
 .title-input ,.title-output ,.title-explaination{
-    height: 20%;
+    height: fit-content;
 }
 
 
 .example-input,.example-output,.example-explaination{
-    height: 20%;
+    height: fit-content;
 }
 
 .top_bar .problem_desc .problem2 .examples .top-examples1{
@@ -66,7 +66,7 @@ li{
 }
 
 .example2{
-    height :70%;
+    height :fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -80,10 +80,9 @@ li{
     background-color: blueviolet;
     border: 2px solid gray;
     border-radius: 5px;
-    height: 50%;
 }
 .top_bar .problem_desc .problem2 .pdesc{
-    height : 25%;
+    height : fit-content;
    
 }
 
@@ -147,18 +146,20 @@ li{
 .top_bar .problem_desc .constraints{
     display: flex;
     flex-direction: column;
-    height: 50%;
 
 }
 
 .title-constraint{
-    height: 10%;
+    height: fit-content;
 }
 
 .constraint-description{
-    height: 40%;
+    height: fit-content;
+    background-color: blueviolet;
+    border-radius: 5px;
+    padding: 15px;
 }
 
 .constraints{
-    height: 40%;;
+    height: 30%;;
 }

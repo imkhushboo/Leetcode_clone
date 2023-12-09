@@ -13,35 +13,17 @@ import Loginprotected from "./middleware/Loginprotected";
 import Blog from "./Components/Blog";
 import Allsubmission from "./Components/Allsubmission";
 import Pagenotfound from "./Components/Pagenotfound";
+import HelperState from "./context/helperState";
 
 
 
 function App() {
-  const [loggedIn , setLoggedIn] = useState(false);
-  useEffect(()=>{
-     
-      if(localStorage.getItem('token'))
-      {
-          setLoggedIn(true);
-      }
-      else{
-        setLoggedIn(false);
-      }
-
-      console.log(loggedIn);
-    
-
-  },[])
-
-  const changeloggedin =(temp)=>{
-    setLoggedIn(temp);
- 
-  }
-
+  
   return(
+    <HelperState>
     <BrowserRouter>
   
-    <Navbar loggedIn={loggedIn} changeloggedin ={changeloggedin}/>
+    <Navbar />
     <Routes>
     <Route exact path="/problemSet/all"  element={<Home />}  />
     <Route path="/problem/:1" element={<Page/>} />
@@ -54,6 +36,7 @@ function App() {
     <Route exact path='/pagenotfound' element={<Pagenotfound/>} />
     </Routes>
     </BrowserRouter> 
+    </HelperState>
   )
   
 }

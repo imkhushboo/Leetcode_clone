@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../CSS/stylenabar.css";
 import { Link, useNavigate } from "react-router-dom";
+import HelperContext from '../context/helperContext';
 
 
 
-function Navbar({loggedIn,changeloggedin}) {
+function Navbar() {
+  const navigate= useNavigate();
+
+  const {profile,LogOut} = useContext(HelperContext);
+  // console.log(profile);
+
    
-
-    const LogOut = ()=>{
-        localStorage.removeItem('token');
-        changeloggedin(false);
-        navigate('/signup');
-    }
-    const navigate= useNavigate();
   return (
     <div className='maxi_nav'>
         <div className='mini_nav'>
@@ -24,13 +23,13 @@ function Navbar({loggedIn,changeloggedin}) {
         </div>
     
         <div className='avatar'>
-         {loggedIn === false?  
+         {profile.token === null?  
             <>
             <button onClick={()=>{navigate('/signup')} }>Sign up</button>
             <button onClick={()=>{ navigate('/login')}}>Login</button>
             </> 
            :
-           <button onClick={LogOut}>Log Out</button>
+           <button onClick={()=>{ LogOut();  navigate('/signup');}}>Log Out</button>
            }
         </div> 
             

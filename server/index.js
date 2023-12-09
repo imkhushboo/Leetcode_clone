@@ -414,6 +414,7 @@ app.get('/blog', async (req, res) => {
         // console.log('blogs', BLOGS);
         const temp = BLOGS.map(x => x.blog.map(y => {
             const obj = {
+                email: x.email,
                 blog_id: y.blog_id,
                 blog_detail: y.blog_detail
             }
