@@ -113,23 +113,11 @@ function SignUp() {
     <>
    
 
-    <div className='signup'>
-    <Toaster
-toastOptions={{
-  className: '',
-  style: {
-    border: '1px solid #713200',
-    padding: '16px',
-    maxHeight:'10%',
-    display:'flex',
-    color:'red',
-    flexDirection:"column",
-  },
-}}
-/>
+    <div className='flex mx-auto items-center w-[30%] h-[90vh]'>
+    <Toaster />
       
         <Formik >
-        <Form className='form' onSubmit={formik.handleSubmit}>
+        <Form className='w-full bg-[#8ACDD7] h-3/5 p-4 border-2 border-black divide-solid text-lg rounded-xl' onSubmit={formik.handleSubmit}>
         <div className ="detail"> 
         <label htmlFor="email">Email : </label>
         <div className='detail-input'>

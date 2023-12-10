@@ -14,20 +14,22 @@ function Home() {
 
 
     return (
-        <div className='top-top-problem-render'>
-          <div className="top-heading"> Problems</div>
-          <hr />
-            <div className='top_problem_render'>
-      <div className='problem_render'>
+        // <div className='top-top-problem-render'>
+        <div className='bg-green-700 flex flex-col justify-center h-[90vh]'>
+          <div className="text-center font-bold text-3xl h-[10%]"> Problems</div>
+          <hr className='bg-gray m-auto h-1 w-[90%]'/>
+            <div className='bg-pink-700 flex flex-col justify-around h-full w-4/5 m-auto'>
+      <div className='flex flex-col justify-center align-middle h-full w-[90%] m-auto border-2 border-black divide-solid'>
       <table>
-        <tr>
-            <th> Title</th>
-            <th> Difficulty</th>
-            <th> Acceptance</th>
+        <tr >
+            <th className='h-full w-2/6'> Title</th>
+            <th  className='h-full w-2/6'> Difficulty</th>
+            <th  className='h-full w-2/6'> Acceptance</th>
         </tr>
       
         { profile.problems.map(problem=>
              <RenderProblems 
+                key={problem._id}
                _id={problem._id}
                Title = {problem.Title}
                Acceptance ={problem.Acceptance}
@@ -40,11 +42,11 @@ function Home() {
       </table> 
 
       </div>
-       <div className='toggle_problems'>
-       <button onClick={()=>{
+       <div className='flex justify-end w-4/5 h-[16%] m-auto'>
+       <button  className='mx-[2%] w-[10%] rounded-lg'onClick={()=>{
         fetchproblems(1);
        }}>1</button>
-      <button onClick={()=>{
+      <button className='mx-[2%] w-[10%] rounded-lg' onClick={()=>{
          fetchproblems(2);
       }}>2</button>
       </div>
@@ -59,10 +61,10 @@ function RenderProblems(props)
 
   return(
   
-    <tr>
-      <td><Link to={{pathname: `/problem/:${props._id}`,problem_id : props._id}} >{props.Title}</Link></td>
+    <tr >
+      <td ><Link to={{pathname: `/problem/:${props._id}`,problem_id : props._id}} >{props.Title}</Link></td>
       <td>{props.Acceptance}</td>
-      <td>{props.Difficulty}</td>
+      <td >{props.Difficulty}</td>
      </tr>
     
   );

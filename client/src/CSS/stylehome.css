@@ -1,123 +1,15 @@
-.top-top-problem-render{
-    height:90vh;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.top-heading{
-    height: 10%;
-    font-size: 2rem;
-    font-weight: bold;
-    align-items: center;
-    text-align: center;
-}
-
-.top-top-problem-render hr{
-    width: 90%;
-    margin: auto;
-}
-
-.top_problem_render
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 80%;
-    background-color: pink;
-    justify-content: center;
-    font-size: 1.5rem;
-    height: 100%;
-    margin: auto;
-}
-
-.problem_render
-{
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    height: 80%;
-    border: 2px solid black;
-    margin: auto;
-}
-
-.problem_render .problems_list{
-    display: flex;
-    height :10%;
-    
-}
-.problem_render .problems_list .search_problem{
-    width: 30%;
-    border:2px solid gray;
-    border-radius: 7px;
-    height: 100%;
-    /* margin: 0% 2% 0% 2%; */
-}
-.problem_render .problems_list ul{
-    width: 70%;
-    display: flex;
-justify-content: space-between;    
-    list-style: none;
-    height: 100%;
-    align-items: center;
-}    
-
-hr{
-    height: 1%;
-}
-.problem_render .problems_list ul li{
-    width:20%;
-    border:2px solid gray;
-    border-radius: 7px;
-    margin: 0% 2% 0% 2%;
-    height: 100%;
-}
-
-.problem_render .problems_list ul li input{
-    width: 100px;
-    height: 100%;
-  
-}
-
 table{
-   overflow-y: scroll;
-    height: 100%;
-    width: 100%;
+    @apply border-collapse overscroll-y-auto h-full w-full text-center 
 }
 
-tr {
-    display: flex;
-    height: 10%;
 
+button{
+    @apply mx-[2%] w-[10%] rounded-lg
 }
 
 td,th{
-    height:100%;
-    width: 33.3%
+    @apply h-full w-2/6 border-r border-black border-collapse
 }
-
-table,td,th{
-    border: 1px solid black;
-    text-align: center;
-    border-collapse: collapse;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-
-.toggle_problems {
-   
-    width: 80%;
-    display: flex;
-    justify-content: end;
-    height: 16%;
-    margin: auto;
-}
-
-.toggle_problems button{
-    width:10%;
-    margin :0% 2% 0% 2%;
-    border-radius: 7px;
-
+tr{
+    @apply flex h-[10%] border-b border-black even:bg-gray-100
 }
