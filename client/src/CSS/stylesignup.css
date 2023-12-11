@@ -1,15 +1,6 @@
 *{
     overflow-x: hidden;
 }
-   .login ,.signup{
-    display: flex;
-    align-items: center;
-    width: 30%;
-    margin-left:auto;
-    margin-right :auto;
-    height :90vh;
-    
-   }
 
    .detail-input{
     @apply flex h-[48%]
@@ -58,19 +49,8 @@
 
  
 
-   .login .form{
+   .form{
     @apply flex flex-col justify-around h-2/5
-   }
-
-   .login .detail{
-    height: 30%;
-   }
-
-   .login .btn{
-    height: 20%;
-   }
-   .login .btn button{
-    height: 100%;
    }
    .detail{ 
 

@@ -1,5 +1,5 @@
 import React, { useState ,useEffect, useContext} from 'react';
-import '../CSS/stylesignup.css';
+// import '../CSS/stylesignup.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
@@ -113,18 +113,18 @@ function Login() {
 
     
   return (
-      <div className='login'>
+      <div className='flex items-center h-[90vh] justify-center'>
         <Toaster toastOptions={{
        className: 'toaster'}}
       position="top-center"
       reverseOrder={false}
      />
         <Formik>
-         <Form className='form' onSubmit={formik.handleSubmit}>
-        <div className ="detail"> 
-        <label htmlFor="email">Email : </label>
-        <div className="detail-input">
-        <Field id="email" type="email" placeholder='Email Address'  onBlur={formik.handleBlur} value={formik.values.email}  onChange={formik.handleChange} />
+         <Form className='bg-gray h-2/5  flex flex-col justify-between border-2 border-black divide-solid rounded-xl' onSubmit={formik.handleSubmit}>
+        <div  id="detail" className ="flex flex-col h-2/5 w-4/5 m-auto justify-between"> 
+        <label className='w-full'htmlFor="email">Email : </label>
+        <div id= "detail-input" className="flex h-3/5">
+        <Field className="h-3/5 w-4/5"id="email" type="email" placeholder='Email Address'  onBlur={formik.handleBlur} value={formik.values.email}  onChange={formik.handleChange} />
         {formik.touched.email?
         <div className="error">
                     {formik.errors.email ? 
@@ -139,10 +139,10 @@ function Login() {
         </div>
        
         </div>
-        <div className ="detail">
-        <label htmlFor="password" >Password : </label>
-        <div className="detail-input">
-        <Field id="password" type="password" placeholder='Enter Password'  onBlur={formik.handleBlur} value={formik.values.password}  onChange={formik.handleChange} />
+        <div id="detail" className ="flex flex-col h-2/5 w-4/5 m-auto justify-between">
+        <label className="w-full"htmlFor="password" >Password : </label>
+        <div id="detail-input" className=' flex h-3/5'>
+        <Field className="h-3/5 w-4/5" id="password" type="password" placeholder='Enter Password'  onBlur={formik.handleBlur} value={formik.values.password}  onChange={formik.handleChange} />
         {formik.touched.password?
         <div className="error">
                     {formik.errors.password ? 
@@ -156,8 +156,8 @@ function Login() {
 
         </div>
         </div>
-        <div className='btn'>
-        <button type='submit'> Login </button>
+        <div className='flex justify-center h-1/5'>
+        <button className='h-4/5'type='submit'> Login </button>
         </div>
         </Form>
         </Formik>
