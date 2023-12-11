@@ -1,13 +1,13 @@
 
-.title ,.date ,.description{
+#blog .title ,.date ,.description{
     @apply h-[38%] ml-3
 }
 
-button{
+#blog button{
     @apply w-1/5 h-full
 }
 
 
-label,input,textarea{
+#blog label,input,textarea{
     @apply h-1/5 m-auto w-[93%] border-gray-600 border
 }
