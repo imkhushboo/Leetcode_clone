@@ -6,6 +6,11 @@ import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Toaster, toast } from 'react-hot-toast';
 import HelperContext from '../context/helperContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actioncreator } from '../state';
+
+
 
 
 function passwordverify( password) {
@@ -54,8 +59,37 @@ function passwordverify( password) {
 
 
 function Login() {
-    const {profile,LogIn} = useContext(HelperContext)
+    const dispatch = useDispatch();
+    const profile = useSelector(state=>state.AuthReducer);
+    const {LogIn} = bindActionCreators(actioncreator,dispatch);
     const navigate = useNavigate();
+    useEffect(()=>{
+        console.log(profile);
+        if(profile.token !==null)
+        {
+            
+            navigate('/problemSet/all');
+        }
+
+        else if(profile.status === 200)
+        {
+            toast.success("Login  Successfully!");
+            setTimeout(()=>{
+                navigate('/problemSet/all');
+            },1000);
+           
+        }
+        else if(profile.status === 500)
+        {
+            toast.error(profile.message)
+        }
+        else if(profile.loading === true){
+            toast.loading('Signing up ...!');
+        }  
+    },[profile])
+
+
+
 
     const formik = useFormik({
         initialValues: {
@@ -81,44 +115,19 @@ function Login() {
         }),
         onSubmit:async(values) => {
             values = Object.assign(values);
-            let response = await LogIn({email: values.email,password: values.password});
-            if(response.status === 200)
-            {
-                toast.success("Login  Successfully!");
-                setTimeout(()=>{
-                    navigate('/problemSet/all');
-                },1000);
-               
-            }
-            else if(response.status === 500)
-            {
-                toast.error("This didn't work.")
-    
-                    toast.error(response.message);
-            }
-            else{
-                toast.loading('Signing up ...!');
-            }  
+             LogIn({email: values.email,password: values.password});
+          
+          
     // handle submission
         },
     });
 
-    useEffect(()=>{
-        if(profile.token !==null)
-        {
-            
-            navigate('/problemSet/all');
-        }
-    },[])
+   
 
     
   return (
       <div className='flex items-center h-[90vh] justify-center'>
-        <Toaster toastOptions={{
-       className: 'toaster'}}
-      position="top-center"
-      reverseOrder={false}
-     />
+        <Toaster />
         <Formik>
          <Form className='bg-gray h-2/5  flex flex-col justify-between border-2 border-black divide-solid rounded-xl' onSubmit={formik.handleSubmit}>
         <div  id="detail" className ="flex flex-col h-2/5 w-4/5 m-auto justify-between"> 

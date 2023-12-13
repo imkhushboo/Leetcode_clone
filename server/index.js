@@ -493,12 +493,7 @@ app.put('/blog/add', authUser, async (req, res) => {
         const id = user.userId;
         const email = user.email;
         const blogid = req.body.blogid;
-        // console.log(req.header("auth-token"));
         const blog = req.body.blogdetail;
-
-        // console.log(blogid)
-
-        // console.log(blog);
 
         const user_details = BLOGS.find(x => x._id === id);
 

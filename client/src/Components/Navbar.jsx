@@ -2,18 +2,39 @@ import React, { useContext, useEffect, useState } from 'react'
 import "../CSS/stylenabar.css";
 import { Link, useNavigate } from "react-router-dom";
 import HelperContext from '../context/helperContext';
+import { LogOut } from '../state/actionCreator';
+import { useDispatch, useSelector } from 'react-redux';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 
 function Navbar() {
   const navigate= useNavigate();
+  const dispatch = useDispatch();
 
-  const {profile,LogOut} = useContext(HelperContext);
-  // console.log(profile);
+  const profile = useSelector(state=>state.AuthReducer);
+  
+  useEffect(()=>{
+    if(profile.status === 200)
+    {
+      toast.success(profile.message);
+    }
+    else if(profile.status  === 500)
+    {
+      toast.error(profile.message);
+    }
+    else if(profile.loading === true)
+    {
+      toast.loading('loading....');
+    }
+    console.log(profile);
+  },[profile])
 
    
   return (
     <div className='bg-[#67729D] flex justify-between w-full h-[10vh] text-lg items-center'>
+      <Toaster />
         <div className='h-full w-1/2'>
         <ul className='flex flex-wrap justify-around h-full list-none'>
         <li ><Link to ='/problemSet/all' >Problem </Link></li>
@@ -29,7 +50,7 @@ function Navbar() {
             <button  onClick={()=>{ navigate('/login')}}>Login</button>
             </> 
            :
-           <button onClick={()=>{ LogOut();  navigate('/signup');}}>Log Out</button>
+           <button onClick={()=>{ dispatch(LogOut());  navigate('/signup');}}>Log Out</button>
            }
         </div> 
             

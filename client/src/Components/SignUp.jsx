@@ -1,11 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import '../CSS/stylesignup.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Toaster, toast } from 'react-hot-toast';
-import HelperContext from '../context/helperContext';
+// import HelperContext from '../context/helperContext';
+import { signupUser } from '../state/actionCreator';
+import {  useDispatch, useSelector } from 'react-redux';
+// import { bindActionCreators } from 'redux';
+
+
+
 
 
 function passwordverify( password) {
@@ -54,8 +60,34 @@ function passwordverify( password) {
 
 
 function SignUp() {
+    
     const navigate = useNavigate();
-    const {signupUser}=useContext(HelperContext)
+    const dispatch = useDispatch();
+    const profile =useSelector(state=>state.AuthReducer);
+
+    
+    useEffect(()=>{
+        if(profile.status === 200)
+        {
+            toast.success("Signed Up Successfully!");
+             
+            setTimeout(()=>{
+                navigate('/login')
+            },100);
+        }
+        else if(profile.status === 500)
+        {
+                toast.error(profile.message);
+        }
+        else if(profile.loading === true){
+            toast.loading('loading...');
+        } 
+    
+      },[profile])
+
+
+    
+
     const formik = useFormik({
         initialValues: {
             "email":"",
@@ -79,35 +111,14 @@ function SignUp() {
         }),
         confirmPassword: Yup.string().required("Required").oneOf([Yup.ref('password'), null], 'Passwords must match')
     }),
-    onSubmit: async values => {
-        // console.log(values);
-        values = Object.assign(values);
+    onSubmit: (values) => {
         console.log(values);
-        let response = await signupUser({email: values.email,password: values.password});
-        console.log(response);
-        // toast.error("This didn't work.")
-            if(response.status === 200)
-            {
-                toast.success("Signed Up Successfully!");
-                 
-                setTimeout(()=>{
-                    navigate('/login')
-                },100);
-            }
-            else if(response.status === 500)
-            {
-                toast.error("This didn't work.")
-    
-                    toast.error(response.message);
-            }
-            else{
-                toast.loading('Signing up ...!');
-            } 
-        
+      
+        values = Object.assign(values);
+         dispatch(signupUser({email: values.email,password: values.password}));
+          
       }});
 
-   
-   
 
   return (
     <>
