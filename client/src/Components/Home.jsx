@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import "../CSS/stylehome.css";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import HelperContext from '../context/helperContext';
+import { fetchproblems } from '../state/actionCreator';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Home() {
-      const {profile,fetchproblems} = useContext(HelperContext);
+     const dispatch = useDispatch();
+      const problems  = useSelector(state=>state.ProblemRenderReducer);
     useEffect(()=>{
-        fetchproblems(1);
+        dispatch(fetchproblems(1));
     },[])
 
 
@@ -27,7 +29,7 @@ function Home() {
             <th  className='h-full w-2/6'> Acceptance</th>
         </tr>
       
-        { profile.problems.map(problem=>
+        { problems.problem.map(problem=>
              <RenderProblems 
                 key={problem._id}
                _id={problem._id}
@@ -44,10 +46,10 @@ function Home() {
       </div>
        <div className='flex justify-end w-4/5 h-[16%] m-auto'>
        <button  className='mx-[2%] w-[10%] rounded-lg'onClick={()=>{
-        fetchproblems(1);
+        dispatch(fetchproblems(1));
        }}>1</button>
       <button className='mx-[2%] w-[10%] rounded-lg' onClick={()=>{
-         fetchproblems(2);
+         dispatch(fetchproblems(2));
       }}>2</button>
       </div>
       </div>

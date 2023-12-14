@@ -63,31 +63,27 @@ function SignUp() {
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const profile =useSelector(state=>state.AuthReducer);
-
-    
+    const profile = useSelector(state=>state.AuthReducer);
     useEffect(()=>{
-        if(profile.status === 200)
-        {
-            toast.success("Signed Up Successfully!");
-             
-            setTimeout(()=>{
-                navigate('/login')
-            },100);
-        }
-        else if(profile.status === 500)
-        {
-                toast.error(profile.message);
-        }
-        else if(profile.loading === true){
-            toast.loading('loading...');
-        } 
-    
-      },[profile])
-
-
-    
-
+        console.log(profile);
+        if(profile.status === 200 && profile.success === true)
+         {
+             toast.success(profile.message);
+              
+             setTimeout(()=>{
+                 navigate('/login')
+             },100);
+         }
+         else if(profile.status === 500 && profile.success === false)
+         {
+                 toast.error(profile.message);
+         }
+         else if(profile.loading  === true){
+             toast.loading('loading...',{autoClose:1000});
+             toast.dismiss();
+         } 
+    },[profile]);
+   
     const formik = useFormik({
         initialValues: {
             "email":"",
@@ -119,13 +115,12 @@ function SignUp() {
           
       }});
 
-
+    
   return (
     <>
-   
 
     <div className='flex mx-auto items-center w-[30%] h-[90vh]'>
-    <Toaster />
+  
       
         <Formik >
         <Form className='w-full bg-[#8ACDD7] h-3/5 p-4 border-2 border-black divide-solid text-lg rounded-xl' onSubmit={formik.handleSubmit}>

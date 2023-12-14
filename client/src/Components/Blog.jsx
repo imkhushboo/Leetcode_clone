@@ -11,34 +11,37 @@ import { rendermodal,addblog,deleteblog, fetchBlog } from '../state/actionCreato
 
 function Blog() {
   const dispatch = useDispatch();
-  const profile = useSelector(state =>state.BlogReducer);
+  let profile = useSelector(state =>state.BlogReducer);
   const modal_detail = useSelector(state=>state.RenderModalReducer);
       useEffect(()=>{
-        console.log(profile);
-        if(profile.status === 200)
-        {
-          toast.success(profile.message);
-        }
-        else if(profile.status === 500)
-        {
-          toast.error(profile.message);
-        }
-        else if(profile.lodaing === true){
-          toast.loading('loading ....');
-        }
-        },[profile]);
+        dispatch(fetchBlog());
+        },[]);
 
 const handleblogsubmit = (e) =>{
 
   e.preventDefault();
-  console.log(e.target.title);
+ 
   const title = e.target.title.value;
   const description =e.target.description.value;
   const time  = Date();
   console.log(title,description);
   dispatch(addblog({title,description,time}));
-  dispatch(fetchBlog());
-  modal.close();
+  console.log(profile);
+   
+    if(profile.status === 200)
+    {
+      toast.success(profile.message);
+    }
+    else if(profile.status === 500)
+    {
+      toast.error(profile.message);
+    }
+    else if(profile.loading === true){
+      toast.loading('loading ....');
+    }
+
+    modal.close();
+    
 
 }
 
@@ -47,10 +50,11 @@ const handleblogsubmit = (e) =>{
   return (
 
     <div id="blog" className='mt-[5%] m-auto w-[98%] h-[80vh] overflow-y-scroll'>
-      <Toaster />
     <div className='flex w-[98%] justify-between items-center h-1/5'>
     <h4 className='text-3xl ml-[5%] font-bold'>Blogs</h4>
     <button className='w-1/5 h-2/5'onClick={()=>{dispatch(rendermodal({title : '',description:'',time:''}));modal.showModal()}}> add blog</button>
+    <h5>{profile.status}</h5>
+    <h5>{profile.message}</h5>
 
     {<dialog className='m-auto h-[50vh] w-[70%]'id='modal' >
       <form className='flex w-full h-full' onSubmit = {handleblogsubmit}>

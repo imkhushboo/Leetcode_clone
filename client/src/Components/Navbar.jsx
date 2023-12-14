@@ -14,22 +14,21 @@ function Navbar() {
   const dispatch = useDispatch();
 
   const profile = useSelector(state=>state.AuthReducer);
-  
-  useEffect(()=>{
+
+
+  const handleLogOut =()=>{
+    dispatch(LogOut());
+    console.log(profile);
     if(profile.status === 200)
     {
       toast.success(profile.message);
+      navigate('/signup');
     }
-    else if(profile.status  === 500)
+    else if(profile.status === 500)
     {
       toast.error(profile.message);
     }
-    else if(profile.loading === true)
-    {
-      toast.loading('loading....');
-    }
-    console.log(profile);
-  },[profile])
+  }
 
    
   return (
@@ -50,7 +49,7 @@ function Navbar() {
             <button  onClick={()=>{ navigate('/login')}}>Login</button>
             </> 
            :
-           <button onClick={()=>{ dispatch(LogOut());  navigate('/signup');}}>Log Out</button>
+           <button onClick={handleLogOut}>Log Out</button>
            }
         </div> 
             

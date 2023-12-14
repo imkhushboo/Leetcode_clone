@@ -1,14 +1,11 @@
-import React, { useState ,useEffect, useContext} from 'react';
+import React, { useEffect } from 'react';
 // import '../CSS/stylesignup.css';
 import { Navigate, useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Toaster, toast } from 'react-hot-toast';
-import HelperContext from '../context/helperContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actioncreator } from '../state';
+import { LogIn } from '../state/actionCreator';
 
 
 
@@ -60,36 +57,27 @@ function passwordverify( password) {
 
 function Login() {
     const dispatch = useDispatch();
-    const profile = useSelector(state=>state.AuthReducer);
-    const {LogIn} = bindActionCreators(actioncreator,dispatch);
+    const profile= useSelector(state=>state.AuthReducer);
     const navigate = useNavigate();
-    useEffect(()=>{
-        console.log(profile);
-        if(profile.token !==null)
-        {
-            
-            navigate('/problemSet/all');
-        }
 
-        else if(profile.status === 200)
+    useEffect(()=>{
+        if(profile.token !==null || (profile.loggedIn === true && profile.success === true))
         {
-            toast.success("Login  Successfully!");
+            toast.success(profile.message);
             setTimeout(()=>{
                 navigate('/problemSet/all');
             },1000);
-           
+        
         }
-        else if(profile.status === 500)
+        else if(profile.loggedIn === false && profile.success === false)
         {
             toast.error(profile.message)
         }
         else if(profile.loading === true){
-            toast.loading('Signing up ...!');
-        }  
+            toast.loading('Logging up ...!');
+        } 
     },[profile])
-
-
-
+  
 
     const formik = useFormik({
         initialValues: {
@@ -115,8 +103,10 @@ function Login() {
         }),
         onSubmit:async(values) => {
             values = Object.assign(values);
-             LogIn({email: values.email,password: values.password});
+             dispatch(LogIn({email: values.email,password: values.password}));
+
           
+
           
     // handle submission
         },
@@ -127,7 +117,6 @@ function Login() {
     
   return (
       <div className='flex items-center h-[90vh] justify-center'>
-        <Toaster />
         <Formik>
          <Form className='bg-gray h-2/5  flex flex-col justify-between border-2 border-black divide-solid rounded-xl' onSubmit={formik.handleSubmit}>
         <div  id="detail" className ="flex flex-col h-2/5 w-4/5 m-auto justify-between"> 

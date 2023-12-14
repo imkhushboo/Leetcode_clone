@@ -13,16 +13,16 @@ import Loginprotected from "./middleware/Loginprotected";
 import Blog from "./Components/Blog";
 import Allsubmission from "./Components/Allsubmission";
 import Pagenotfound from "./Components/Pagenotfound";
-import HelperState from "./context/helperState";
+import { Toaster } from "react-hot-toast";
 
 
 
 function App() {
   
   return(
-    <HelperState>
     <BrowserRouter>
-  
+    <Toaster  autoClose={4000}/>
+
     <Navbar />
     <Routes>
     <Route exact path="/problemSet/all"  element={<Home />}  />
@@ -36,7 +36,7 @@ function App() {
     <Route exact path='/pagenotfound' element={<Pagenotfound/>} />
     </Routes>
     </BrowserRouter> 
-    </HelperState>
+
   
   )
   

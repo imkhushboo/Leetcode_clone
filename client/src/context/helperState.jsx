@@ -129,60 +129,11 @@ function HelperState(props) {
     }
 }
 
-const fetchproblems = async(pageno) => {
 
-    try{
-       
-        const response  = await fetch(`http://localhost:3001/problemSet/all/:${pageno}`,{
-            method : 'POST',
-        })
 
-        const json  = await response.json();
-        // console.log(json);
-
-        if(response.status != 200)
-        {
-            const err = json.msg;
-            throw err;
-        }
-
-        setProfile({...profile,'problems':json});
-    }catch(err)
-    {
-        console.log(err);
-    }
-
-}
-
-const showproblems = async(problem_id)=>{
-
-    try{
-        const response = await fetch(`http://localhost:3001/problem/:${problem_id}`,{
-            method : 'GET',
-
-        })
-
-        const json = await response.json();
-
-        if(response.status != 200)
-        {
-            const err = json.msg;
-            throw err;
-        }
-        console.log(json.problem);
-
-        setProfile({...profile,'problems':json.problem});
-        
-
-    }catch(err)
-    {
-        console.log(err);
-    }
-}
-   
 
   return (
-    <HelperContext.Provider value={{profile,setProfile,signupUser,LogIn,LogOut,fetchsubmission,submitcode,submitProblemcode,showproblems,fetchproblems}}>
+    <HelperContext.Provider value={{profile,setProfile,LogOut,fetchsubmission,submitcode,submitProblemcode,showproblems,fetchproblems}}>
       {props.children}
     </HelperContext.Provider>
   )

@@ -9,7 +9,11 @@ import { useState } from "react";
 export const fetchBlog = () => {
     return async (dispatch) => {
 
+
         try {
+            dispatch({
+                type: 'loading'
+            })
             const response = await fetch('http://localhost:3001/blog', {
                 method: 'GET'
             })
@@ -48,6 +52,9 @@ export const addblog = (props) => {
     return async (dispatch) => {
 
         try {
+            dispatch({
+                type: 'loading'
+            })
             const temp = { blogid: null, blogdetail: { title: props.title, description: props.description, time: props.time } };
 
             if (!localStorage.getItem('token')) {
@@ -72,6 +79,7 @@ export const addblog = (props) => {
             dispatch({
                 type: 'addblogsuccessful'
             })
+            fetchBlog();
         }
         catch (err) {
             dispatch({
@@ -84,6 +92,9 @@ export const addblog = (props) => {
 
 export const deleteblog = (blogid) => {
     return async (dispatch) => {
+        dispatch({
+            type: 'loading'
+        })
         try {
             let temp = confirm('Do you want to delete the Blog ?');
             if (!temp) {
@@ -109,6 +120,8 @@ export const deleteblog = (blogid) => {
                 type: 'deleteblogsuccessful',
             })
 
+            fetchBlog();
+
         } catch (err) {
             dispatch({
                 type: 'deleteblogfail',
@@ -124,6 +137,9 @@ export const updateprofileReducer = (props) => {
     console.log(props);
     return (dispatch) => {
         dispatch({
+            type: 'loading'
+        })
+        dispatch({
             type: 'update profile',
             payload: props
         })
@@ -135,10 +151,13 @@ export const updateprofileReducer = (props) => {
 //auth user
 
 export const signupUser = ({ email, password }) => {
+    console.log(email, password);
 
     return async (dispatch) => {
         try {
-            console.log(email, password);
+            dispatch({
+                type: 'loading'
+            })
 
             const response = await fetch("http://localhost:3001/signup", {
                 method: 'POST',
@@ -180,6 +199,9 @@ export const signupUser = ({ email, password }) => {
 export const LogIn = ({ email, password }) => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: 'loading'
+            })
             const response = await fetch("http://localhost:3001/login", {
                 method: 'POST',
                 headers: {
@@ -218,6 +240,9 @@ export const LogIn = ({ email, password }) => {
 export const LogOut = () => {
     return (dispatch) => {
         try {
+            dispatch({
+                type: 'loading'
+            })
 
             localStorage.removeItem('token');
             dispatch({
@@ -230,4 +255,72 @@ export const LogOut = () => {
         }
 
     }
+}
+
+
+export const fetchproblems = (pageno) => {
+    return async (dispatch) => {
+        try {
+
+            const response = await fetch(`http://localhost:3001/problemSet/all/:${pageno}`, {
+                method: 'POST',
+            })
+
+            const json = await response.json();
+            // console.log(json);
+
+            if (response.status != 200) {
+                const err = json.msg;
+                throw err;
+            }
+
+            dispatch({
+                type: 'fetchproblemsuccessful',
+                payload: json
+            })
+        } catch (err) {
+            dispatch({
+                type: 'fetchproblemfail',
+                payload: err
+            })
+        }
+
+    }
+
+
+}
+
+export const fetchselectedproblem = (problem_id) => {
+    return async (dispatch) => {
+
+
+        try {
+            const response = await fetch(`http://localhost:3001/problem/:${problem_id}`, {
+                method: 'GET',
+
+            })
+
+            const json = await response.json();
+
+            if (response.status != 200) {
+                const err = json.msg;
+                throw err;
+            }
+            console.log(json.problem);
+            dispatch({
+                type: 'fetchselectedproblemsuccessful',
+                payload: json.problem
+            })
+
+
+
+        } catch (err) {
+            dispatch({
+                type: 'fetchselectedproblemfail',
+                payload: err
+            })
+        }
+
+    }
+
 }
