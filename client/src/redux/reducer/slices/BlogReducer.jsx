@@ -1,14 +1,11 @@
+import {constant} from '../../constant';
+
 
 const profile={
-    'email':'',
     'blogid':null,
     'blog':[],
-    'submission':[],
-    'problems':[],
     'status':'',
     'message':''
-
-
 }
 
 
@@ -18,28 +15,20 @@ export const BlogReducer = (state = profile,action)=>{
     console.log(action);
     switch(action.type)
     {
-      case 'fetchblogsuccessful':
+      case constant.FETCH_BLOG_SUCCESSFUL:
         return {...state,'blog':action.payload,'status':200,'message':'Successfull fetched blog!'};
-      case 'fetchblogfail':
+      case constant.FETCH_BLOG_FAILED:
         return {...state,'status':500,'message':'fail'};
-      case  'addblogsuccessful':
+      case  constant.ADD_BLOG_SUCCESSFUL:
         return {...state,'status':200,'message':'blog added Sucseesfull'};
-        case  'addblogfail':
+      case  constant.ADD_BLOG_FAILED:
         return {...state,'status':500,'message':'failed'}
-    case  'deleteblogsuccessful':
-     return {...state,'status':200,message:"Deleted blog sucessfully"}
-   
-   case 'deleteblogfail':
-   
-    return {...state,'status':500,message:"failed"}
-   
-   case  'update profile':
-     
-     return {...state,...action.payload,'status':200,'message':'Sucessfully updated!'};
-
-   default : return state;
-
-
+      case  constant.DELETE_BLOG_SUCCESSFUL:
+        return {...state,'status':200,message:"Deleted blog sucessfully"}
+      case constant.DELETE_BLOG_FAILED:
+        return {...state,'status':500,message:"failed"}
+      default :
+        return state;
     }
  
 

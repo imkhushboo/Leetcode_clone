@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Toaster, toast } from 'react-hot-toast';
 // import HelperContext from '../context/helperContext';
-import { signupUser } from '../state/actionCreator';
+import { signupUser } from '../redux/actionCreator';
 import {  useDispatch, useSelector } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 
@@ -66,7 +66,7 @@ function SignUp() {
     const profile = useSelector(state=>state.AuthReducer);
     useEffect(()=>{
         console.log(profile);
-        if(profile.status === 200 && profile.success === true)
+        if(profile.loggedIn == true && profile.status === 200 && profile.success === true)
          {
              toast.success(profile.message);
               

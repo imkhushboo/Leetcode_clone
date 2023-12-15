@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import '../CSS/styleallsubmission.css';
 import { Link } from 'react-router-dom';
-import HelperContext from '../context/helperContext';
+import { fetchsubmission } from '../redux/actionCreator';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function Allsubmission() {
+    const dispatch = useDispatch();
 
-    const {profile,fetchsubmission} = useContext(HelperContext);
+    const submission = useSelector(state=>state.FetchSubmissionReducer);
 
     useEffect(()=>{
-        console.log(profile);
-        fetchsubmission();
+        dispatch(fetchsubmission());
     },[])
-
+ 
 
   return (
     <div className='allsubmission'>
@@ -23,7 +24,7 @@ function Allsubmission() {
             <th>Acceptance</th>
             <th>Solution</th>
         </tr>
-       {profile.submission.map(submission=>
+       {submission.map(submission=>
             <tr>
                 <td><Link to={{pathname: `/problem/:${submission.problem_id}`,problem_id : submission.problem_id}}>{submission.problem_id}</Link></td>
                 <td style={ (submission.Acceptance ==='Accepted') ? {color : "green"} :{color :'red'}}>{submission.Acceptance}</td>

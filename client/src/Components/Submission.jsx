@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import '../CSS/styleallsubmission.css';
-import HelperContext from '../context/helperContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitcode } from '../redux/actionCreator';
+
 
 function Submission() {
     const location = useLocation();
-    const {profile,submitcode} = useContext(HelperContext);
+    const dispatch = useDispatch();
+    const submission = useSelector(state=>state.FetchSubmissionReducer);
     const id = location.pathname.split('/')[2].split(':')[1];
      useEffect(()=>{
-    submitcode(id);
+    dispatch(submitcode(id));
 
    },[])
 
@@ -22,8 +25,8 @@ function Submission() {
 
             </tr>
            
-            {profile.submission.map( x =>  
-                <tr>
+            {submission.map( x =>  
+                <tr key= {x.solution_id}>
                  <td> {x.solution_id}</td>
                  <td style={ (x.Acceptance ==='Accepted') ? {color : "green"} :{color :'red'}}>{x.Acceptance}</td>
                 <td>{x.solution}</td>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import "../CSS/stylehome.css";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { fetchproblems } from '../state/actionCreator';
+import { fetchproblems } from '../redux/actionCreator';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Home() {

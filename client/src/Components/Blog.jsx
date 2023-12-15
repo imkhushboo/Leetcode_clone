@@ -1,31 +1,31 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import '../CSS/styleblog.css';
 import { useLocation } from 'react-router-dom';
-import HelperContext from '../context/helperContext';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
-import { rendermodal,addblog,deleteblog, fetchBlog } from '../state/actionCreator';
+import {addblog,deleteblog, fetchBlog } from '../redux/actionCreator';
 
 
 
 
 function Blog() {
   const dispatch = useDispatch();
-  let profile = useSelector(state =>state.BlogReducer);
-  const modal_detail = useSelector(state=>state.RenderModalReducer);
+  const profile = useSelector(state =>state.BlogReducer);
+  const {email} = useSelector(state=>state.AuthReducer);
+  
+  const [title,setTitle] =  useState();
+  const [description,setDescription] =useState();
+  const [time,setTime]= useState();
       useEffect(()=>{
         dispatch(fetchBlog());
         },[]);
 
+
 const handleblogsubmit = (e) =>{
 
   e.preventDefault();
- 
-  const title = e.target.title.value;
-  const description =e.target.description.value;
-  const time  = Date();
-  console.log(title,description);
   dispatch(addblog({title,description,time}));
+  dispatch(fetchBlog());
   console.log(profile);
    
     if(profile.status === 200)
@@ -52,12 +52,8 @@ const handleblogsubmit = (e) =>{
     <div id="blog" className='mt-[5%] m-auto w-[98%] h-[80vh] overflow-y-scroll'>
     <div className='flex w-[98%] justify-between items-center h-1/5'>
     <h4 className='text-3xl ml-[5%] font-bold'>Blogs</h4>
-    <button className='w-1/5 h-2/5'onClick={()=>{dispatch(rendermodal({title : '',description:'',time:''}));modal.showModal()}}> add blog</button>
-    <h5>{profile.status}</h5>
-    <h5>{profile.message}</h5>
-
+    <button className='w-1/5 h-2/5'onClick={()=>{setTitle('');setDescription('');setTime(Date());modal.showModal()}}> add blog</button>
     {<dialog className='m-auto h-[50vh] w-[70%]'id='modal' >
-      <form className='flex w-full h-full' onSubmit = {handleblogsubmit}>
       <div className="flex flex-col h-full w-full justify-between">
     <div className='flex justify-around items-center h-1/5'>
     <h1 >Blog</h1>
@@ -66,34 +62,31 @@ const handleblogsubmit = (e) =>{
     <hr />
     <div className='flex flex-col h-2/5 justify-between'>
         <label htmlFor='title'>Enter Title</label>
-        <input  name='title' id='title ' type='text'placeholder='enter title' value={modal_detail.title} onChange={(e)=>{dispatch(rendermodal({'title':e.target.values,'time':Date()}))}}/>
+        <input  name='title' id='title ' type='text'placeholder='enter title' value={title} onChange={(e)=>{setTitle(e.target.value);setTime(Date())}}/>
         <label htmlFor='description' >Description</label>
-        <textarea name='description' id='description' type='text'className='h-2/5 resize-none' row='10' col='10' value = {modal_detail.description} onChange={(e)=>{dispatch(rendermodal({'description':e.target.values,'time':Date()}))}} > </textarea>
+        <textarea name='description' id='description' type='text'className='h-2/5 resize-none' row='10' col='10' value = {description} onChange={(e)=>{setDescription(e.target.value),setTime(Date())}} > </textarea>
     </div>
     <hr />
     <div className="flex justify-end items-center h-1/5">
-        <button type= 'submit'>Save</button>
+        <button onClick={handleblogsubmit} type= 'submit'>Save</button>
         <button onClick={()=>{modal.close()}}>Close</button>
     </div>
     </div>
-      </form>
-   
-   
    </dialog>
     }
     </div>
     <hr className='bg-gray-100 w-[98%] h-0.5'/>
     {profile.blog.map(blog =>
     {
-    return <div className="flex flex-col justify-between h-1/5 w-[98%] border-2 border-black divide-solid mt-auto" >
+    return <div key={blog.blog_id}className="flex flex-col justify-between h-1/5 w-[98%] border-2 border-black divide-solid mt-auto" >
     <div className="h-4/5">
     <p className='date'> Last Updated: {blog.blog_detail.time}</p>
     <h2 className='title'>{blog.blog_detail.title}</h2>
     <p className='description'>{blog.blog_detail.description}</p> 
     </div>
-    {profile.email !== blog.email?
+    {email === blog.email?
      <div className="flex justify-end h-1/5">
-     <button className='bg-green-500 h-full' id="update" onClick={()=>{dispatch(rendermodal({title : blog.blog_detail.title , description :blog.blog_detail.description ,time:blog.blog_detail.time ,blogid:blog.blog_id}));modal.showModal(); }}>Update</button>
+     <button className='bg-green-500 h-full' id="update" onClick={()=>{setTitle(blog.blog_detail.title ); setDescription(blog.blog_detail.description); setTime(blog.blog_detail.time);modal.showModal(); }}>Update</button>
      <button className='bg-gray-500 h-full'id="delete" onClick={() => {dispatch(deleteblog(blog.blog_id));dispatch(fetchBlog());}}>Delete</button>
   </div>:null}
    

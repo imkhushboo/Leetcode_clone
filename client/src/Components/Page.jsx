@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import "../CSS/stylepage.css";
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import HelperContext from '../context/helperContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchselectedproblem } from '../state/actionCreator';
+import { fetchselectedproblem ,submitProblemcode} from '../redux/actionCreator';
+import toast from 'react-hot-toast';
 
 function Page() {
     const inital_text = `
@@ -19,7 +19,7 @@ function Page() {
     const [text,setText] = useState(inital_text);
     const[testcase,setTestcase] = useState(initial_testcase);
     const dispatch = useDispatch();
-    const problems = useSelector(state=>state.ProblemRenderReducer);
+    const {problem,submission,status,success,message,Acceptance}= useSelector(state=>state.RenderSelectedProblem);
     const location = useLocation();
    
     const navigate = useNavigate();
@@ -28,8 +28,7 @@ function Page() {
 
 
   useEffect(()=>{
-    console.log(problems.problem.length);
-   dispatch(fetchselectedproblem(id));
+    dispatch(fetchselectedproblem(id));
     },[]);
 
 
@@ -37,6 +36,23 @@ function Page() {
         alert('ACCEPT SOLUTION');
     }
 
+
+    const handleSubmitProblem =(e)=>{
+        e.preventDefault();
+
+        dispatch(submitProblemcode({text,problem_id:id}));
+
+        if( status === 200 &&  success )
+        {
+            alert(Acceptance);        
+        }
+        else if(status === 500 &&  success === false)
+        {
+            alert(message);
+        }
+
+
+    }
     
 
 
@@ -44,16 +60,16 @@ function Page() {
     
   return (
     <>
-    {(problems.problem.length === 0)?null:
     <div className='top_bar'>
     <div className='problem_desc'>
        <ul>
            <li>Description</li>
            <li onClick = {()=>{navigate(`/problems/:${id}/submissions`)}}>Submission</li>
        </ul>
-       {problems.problem.map(problem =>
+       {problem.map(problem =>
        <RenderProblems
-         key= {problem._id}
+          key={problem._id}
+          id= {problem._id}
           Title = {problem.Title}
           description = {problem.description}
           Examples = {problem.Examples}
@@ -73,7 +89,7 @@ function Page() {
       </select>
        </div>
        <div className='notepad'>
-           <textarea onChange={(e)=>{console.log(text) ;setText(e.target.value)}} value={text}/>
+           <textarea id='code' value={text} onChange={(e)=>{setText(e.target.value)}}/>
        </div>
        <div className='test-case'>
            <h4>Input Test Case :</h4>
@@ -81,12 +97,10 @@ function Page() {
        </div>
        <div id='btn'>
                <button onClick = {runtestcase} type ='submit'>Run code</button>
-               <button onClick = {()=>{submitProblemcode({text,problem_id:id})}}type='submit'>Submit Code</button>
+               <button onClick={handleSubmitProblem}type='submit'>Submit Code</button>
            </div>
-     
    </div>
    </div>
-    }
   </>
  );
 }
@@ -94,7 +108,8 @@ function Page() {
 function RenderProblems(props)
 {
    return(
-       <div className='problem2' key ={props.key}>
+       <div className='problem2' key ={props.id}>
+        <h1>{props.key}</h1>
        <h2>{props.Title}</h2>
        <hr />
        <div className='pdesc'>{props.description}</div>

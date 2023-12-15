@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { constant } from '../constant.jsx';
 
-// const [props, setprops] = useState({
-//     'token': null,
-// });
+
 
 //BLOGS
 
@@ -25,27 +23,20 @@ export const fetchBlog = () => {
                 throw error;
             }
             dispatch({
-                type: 'fetchblogsuccessful',
+                type: constant.FETCH_BLOG_SUCCESSFUL,
                 payload: json
             })
 
         } catch (err) {
             dispatch({
-                type: 'fetchblogfail'
+                type: constant.FETCH_BLOG_FAILED
             });
         }
 
     }
 }
 
-export const rendermodal = (props) => {
-    return (dispatch) => {
-        dispatch({
-            type: 'rendermodal',
-            payload: props
-        });
-    }
-}
+
 
 export const addblog = (props) => {
     console.log(props);
@@ -77,13 +68,13 @@ export const addblog = (props) => {
             }
             console.log(response.status);
             dispatch({
-                type: 'addblogsuccessful'
+                type: constant.ADD_BLOG_SUCCESSFUL
             })
             fetchBlog();
         }
         catch (err) {
             dispatch({
-                type: 'addblogfail'
+                type: constant.ADD_BLOG_FAILED
             })
         }
 
@@ -117,34 +108,19 @@ export const deleteblog = (blogid) => {
             }
 
             dispatch({
-                type: 'deleteblogsuccessful',
+                type: constant.DELETE_BLOG_SUCCESSFUL
             })
 
             fetchBlog();
 
         } catch (err) {
             dispatch({
-                type: 'deleteblogfail',
+                type: constant.DELETE_BLOG_FAILED,
             })
         }
     }
 }
 
-
-//update props
-
-export const updateprofileReducer = (props) => {
-    console.log(props);
-    return (dispatch) => {
-        dispatch({
-            type: 'loading'
-        })
-        dispatch({
-            type: 'update profile',
-            payload: props
-        })
-    }
-}
 
 
 
@@ -178,7 +154,7 @@ export const signupUser = ({ email, password }) => {
                 throw err;
             }
             dispatch({
-                type: 'signupusersuccess',
+                type: constant.SIGNUP_SUCCESSFUL,
                 payload: { email, password },
             })
 
@@ -186,7 +162,7 @@ export const signupUser = ({ email, password }) => {
         }
         catch (err) {
             dispatch({
-                type: 'signupuserfail'
+                type: constant.SIGNUP_FAILED
             })
         }
 
@@ -223,14 +199,14 @@ export const LogIn = ({ email, password }) => {
             console.log(json.token);
             localStorage.setItem('token', json.token);
             dispatch({
-                type: 'loginsuccess',
+                type: constant.LOGIN_SUCCESSFUL,
                 payload: { email, password, token: json.token }
             })
 
         } catch (err) {
             console.log(err);
             dispatch({
-                type: 'loginfailed',
+                type: constant.LOGIN_FAILED,
             })
         }
     }
@@ -246,11 +222,11 @@ export const LogOut = () => {
 
             localStorage.removeItem('token');
             dispatch({
-                type: 'logoutsuccess'
+                type: constant.LOGOUT_SUCCESSFUL
             })
         } catch (err) {
             dispatch({
-                type: 'logoutfailed'
+                type: constant.LOGOUT_FAILED
             })
         }
 
@@ -275,12 +251,12 @@ export const fetchproblems = (pageno) => {
             }
 
             dispatch({
-                type: 'fetchproblemsuccessful',
+                type: constant.FETCH_PROBLEM_SUCCESSFUL,
                 payload: json
             })
         } catch (err) {
             dispatch({
-                type: 'fetchproblemfail',
+                type: constant.FETCH_PROBLEM_FAILED,
                 payload: err
             })
         }
@@ -292,7 +268,6 @@ export const fetchproblems = (pageno) => {
 
 export const fetchselectedproblem = (problem_id) => {
     return async (dispatch) => {
-
 
         try {
             const response = await fetch(`http://localhost:3001/problem/:${problem_id}`, {
@@ -307,8 +282,9 @@ export const fetchselectedproblem = (problem_id) => {
                 throw err;
             }
             console.log(json.problem);
+
             dispatch({
-                type: 'fetchselectedproblemsuccessful',
+                type: constant.FETCH_SELECTED_PROBLEM_SUCCESSFUL,
                 payload: json.problem
             })
 
@@ -316,11 +292,144 @@ export const fetchselectedproblem = (problem_id) => {
 
         } catch (err) {
             dispatch({
-                type: 'fetchselectedproblemfail',
+                type: constant.FETCH_SELECTED_PROBLEM_FAILED,
                 payload: err
             })
         }
 
     }
+
+}
+
+
+export const submitProblemcode = ({ text, problem_id }) => {
+    console.log(text, problem_id);
+
+    return async (dispatch) => {
+        try {
+            console.log(text);
+            const token = localStorage.getItem('token');
+            if (token === null) {
+                const err = 'First signed up !!';
+                throw err;
+            }
+            const response = await fetch(`http://localhost:3001/submit/:${problem_id}`, {
+                method: 'POST',
+                headers: {
+                    'Access-Control-Allow-Origin': "*",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    solution: text
+                })
+
+            })
+
+            const json = await response.json();
+
+            if (response.status != 200) {
+                const err = 'some error occured!';
+                throw err;
+            }
+
+            dispatch({
+                type: constant.SUBMIT_PROBLEM_SUCCESSFUL,
+                payload: json.Acceptance
+            })
+
+        } catch (err) {
+            dispatch({
+                type: constant.SUBMIT_PROBLEM_FAILED,
+                payload: err
+            })
+        }
+
+    }
+
+}
+
+
+
+export const submitcode = (problem_id) => {
+    return async (dispatch) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (token === null) {
+                const err = 'Try to sign in first';
+                throw err;
+            }
+            const response = await fetch(`http://localhost:3001/problems/:${problem_id}/submissions`, {
+                method: 'GET',
+                headers: { "Authorization": `Bearer ${token}` },
+            })
+
+            const json = await response.json();
+
+            if (response.status != 200) {
+                const err = 'some error occured!';
+                throw err;
+            }
+            console.log(json);
+            dispatch({
+                type: constant.FETCH_SELECTED_SUBMISSION_SUCCESSFUL,
+                payload: json.submissions
+            })
+
+
+
+        } catch (err) {
+            dispatch({
+                type: constant.FETCH_SELECTED_SUBMISSION_FAILED,
+                payload: err
+            })
+        }
+
+    }
+
+}
+
+
+
+export const fetchsubmission = () => {
+    return async (dispatch) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (token === null) {
+                const err = 'Try to sign in first';
+                throw err;
+            }
+
+
+            const response = await fetch('http://localhost:3001/submissions', {
+
+                method: 'POST',
+                headers: { "Authorization": `Bearer ${token}` },
+
+            }
+            )
+
+            const json = await response.json();
+
+            if (response.status != 200) {
+                const err = 'Not able to fetch';
+                throw err;
+            }
+            dispatch({
+                type: constant.FETCH_SUBMISSION_SUCCESSFUL,
+                payload: json
+            })
+
+        } catch (err) {
+            dispatch({
+                type: constant.FETCH_SUBMISSION_FAILED,
+                payload: err
+            })
+
+        }
+
+    }
+
 
 }

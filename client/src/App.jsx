@@ -5,8 +5,6 @@ import SignUp from "./Components/SignUp";
 import Navbar from "./Components/Navbar";
 import Login from "./Components/Login";
 import Submission from "./Components/Submission";
-import { useEffect, useState } from "react";
-
 import './App.css';
 import Me from "./Components/Me";
 import Loginprotected from "./middleware/Loginprotected";
