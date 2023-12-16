@@ -5,7 +5,15 @@ var jwt = require('jsonwebtoken');
 const JWT_S = "hehjbfjbsjbk@djfn";
 var bodyParser = require('body-parser');
 const { authUser } = require('./middleware/fetchUser');
-// const fetchUser = require('./middleware/fetchUser');
+const mongoose = require('mongoose');
+const USERS = require('./modal/USER.jsx');
+const { BLOGS, BLOGS_DETAIL } = require('./modal/BLOG.jsx');
+
+
+mongoose.connect('mongodb://localhost:27017/leetcode_clone')
+    .then(() => console.log('Connected mongodb!'));
+
+
 
 const app = express()
 const port = 3001
@@ -22,7 +30,7 @@ app.use(cors(corsOptions));
 
 
 
-const USERS = [];
+// const USERS = [];
 
 const QUESTIONS = [{
     _id: 1,
@@ -105,7 +113,7 @@ const SUBMISSIONS = [
 ]
 
 
-const BLOGS = []
+// const BLOGS = []
 
 app.post('/signup', async (req, res) => {
     // Add logic to decode body
@@ -114,8 +122,10 @@ app.post('/signup', async (req, res) => {
         // console.log(req);
         const email = req.body.email;
         const password = req.body.password;
+        console.log(email, password);
+        console.log(USERS);
 
-        const existinguser = USERS.find(x => x.email === email);
+        const existinguser = await USERS.findOne({ email });
 
         // console.log(existinguser);
         if (existinguser) {
@@ -125,18 +135,19 @@ app.post('/signup', async (req, res) => {
         //Store email and password (as is for now) in the USERS array above (only if the user with the given email doesnt exist)
 
         const hashedpassword = await bcrypt.hash(password, 10);
-        let user = {
-            _id: USERS.length + 1,
+        // console.log(USERS.users.countDocuments({}));
+        // let coll = leetcode.collection('users').count();
+        let user = new USERS({
             password: hashedpassword,
             email: email,
-        }
-        USERS.push(user);
+        });
         SUBMISSIONS.push(user);
         const data = {
             user: {
                 _id: user._id
             }
         }
+        user.save();
         // console.log(data);
         var token = jwt.sign(data, JWT_S);
         res.status(200).json({ token });
@@ -157,7 +168,7 @@ app.post('/login', async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         // console.log(USERS);
-        const detail = USERS.find(x => (x.email === email));
+        const detail = await USERS.findOne({ email });
 
         if (!detail) {
             const err = 'No such Email exist';
@@ -165,12 +176,12 @@ app.post('/login', async (req, res) => {
         }
 
         const hashedpassword = detail.password;
-        const compare_password = await bcrypt.compare(password, hashedpassword);
+        const compare_password = bcrypt.compare(password, hashedpassword);
 
         if (compare_password) {
             var token = jwt.sign(
                 {
-                    userId: detail._id,
+                    userId: detail.user_id,
                     email: detail.email
                 }, JWT_S, { expiresIn: "24h" });
 
@@ -490,22 +501,43 @@ app.put('/blog/add', authUser, async (req, res) => {
     try {
         // console.log(req);
         const user = req.user;
-        const id = user.userId;
+        const user_id = user.userId;
         const email = user.email;
         const blogid = req.body.blogid;
         const blog = req.body.blogdetail;
 
-        const user_details = BLOGS.find(x => x._id === id);
+        const user_details = await BLOGS.findOne({ user_id });
+        console.log(user_details);
 
         if (!user_details) {
-            BLOGS.push({ _id: id, email, blog: [{ blog_id: 1, blog_detail: blog }] });
+            console.log(BLOGS);
+            console.log(BLOGS_DETAIL);
+            let blog_details = new BLOGS_DETAIL({
+
+                blog_id: 1,
+                blog_detail: blog
+
+            });
+            console.log(blog_details);
+            let blogs = new BLOGS(
+                {
+                    user_id: id,
+                    email,
+                    blogs: [blog_details]
+                }
+            )
+            // blogs.blog.push(blog_details);
+
+            console.log(blogs);
+            blogs.save();
         }
         else {
-            const index = BLOGS.findIndex(x => x._id === id);
+            const index = await BLOGS.findIndex(x => x.user_id === id);
+            console.log(index);
 
-            const blogdetails = BLOGS[index].blog.find(x => x.blog_id === blogid);
+            const blogdetails = await BLOGS[index].blog.find(x => x.blog_id === blogid);
             if (blogdetails) {
-                const blogindex = BLOGS[index].blog.findIndex(x => x.blog_id === blogid);
+                const blogindex = await BLOGS[index].blog.findIndex(x => x.blog_id === blogid);
                 // console.log(blogindex);
                 BLOGS[index].blog[blogindex].blog_detail = blog;
             }
@@ -516,9 +548,9 @@ app.put('/blog/add', authUser, async (req, res) => {
 
         }
 
-
-        // console.log(BLOGS);
-        res.status(200).json(BLOGS);
+        const result = BLOGS.find();
+        console.log(result);
+        res.status(200).json(result);
 
     } catch (err) {
         res.status(500).json({ msg: err });
