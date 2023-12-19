@@ -19,13 +19,12 @@ const initial_state={
     console.log(state);
     switch(action.type){
       case(action.type === 'loading'):
-
         return {...state,loading:true};
        case constant.SIGNUP_SUCCESSFUL:
         return {...state,...action.payload,loading:false,status:200,success:true,message:'Sucessfully Signed up!!'}
     
        case constant.SIGNUP_FAILED:
-        return {...state,...initial_state,loading:false,status:500,success:false,message:'Sigend upfailed!!'};
+        return {...state,...initial_state,loading:false,status:500,success:false,message:action.payload};
        case constant.LOGIN_SUCCESSFUL:
         return {...state,...action.payload,loggedIn:true,loading:false,status:200,success:true,message:'Login Successfully!'}
        case constant.LOGIN_FAILED:

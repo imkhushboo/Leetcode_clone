@@ -39,14 +39,14 @@ export const fetchBlog = () => {
 
 
 export const addblog = (props) => {
-    console.log(props);
+    console.log("propss", props);
     return async (dispatch) => {
 
         try {
             dispatch({
                 type: 'loading'
             })
-            const temp = { blogid: null, blogdetail: { title: props.title, description: props.description, time: props.time } };
+            const temp = { blogid: props.blogid, blogdetail: { title: props.title, description: props.description, time: props.time } };
 
             if (!localStorage.getItem('token')) {
                 const err = 'trying to sign in first';
@@ -161,8 +161,10 @@ export const signupUser = ({ email, password }) => {
 
         }
         catch (err) {
+            console.log(err);
             dispatch({
-                type: constant.SIGNUP_FAILED
+                type: constant.SIGNUP_FAILED,
+                payload: err
             })
         }
 
