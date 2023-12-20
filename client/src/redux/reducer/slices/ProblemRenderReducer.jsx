@@ -16,11 +16,11 @@ export const ProblemRenderReducer = (state=initial_state,{type,payload}) => {
 
     switch (type){
         case constant.FETCH_PROBLEM_SUCCESSFUL:
-            return {...state,problem:payload,success:true,status:200,message:"fetched successfully"};
+            return {problem:payload,success:true,status:200,message:"fetched successfully"};
         case constant.FETCH_PROBLEM_FAILED:
             return {problem:[],success:false,status:500,message:"fetched failed!"} 
         default :
-            return state
+            return initial_state
     }
 
 

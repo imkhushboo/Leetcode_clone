@@ -69,7 +69,7 @@ function Page() {
        {problem.map(problem =>
        <RenderProblems
           key={problem._id}
-          id= {problem._id}
+          id= {problem.problem_id}
           Title = {problem.Title}
           description = {problem.description}
           Examples = {problem.Examples}

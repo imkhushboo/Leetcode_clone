@@ -22,10 +22,11 @@ function Blog() {
 
 
     useEffect(()=>{
-      dispatch(fetchBlog());
+     
     
-      if(profile.status === 200)
+      if(profile.status === 200 )
       {
+        dispatch(fetchBlog());
         toast.success(profile.message);
       }
       else if(profile.status === 500)

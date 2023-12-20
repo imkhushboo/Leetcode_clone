@@ -1,18 +1,17 @@
 
 
-const SUBMISSIONS = [
-
-]
+const SUBMISSIONS = require("../modal/SUBMISSION.jsx");
 
 submitProblemCode = async (req, res) => {
     try {
         const user = req.user;
         const id = user.userId;
-        const problem_id = req.params.id[1].toString();
+        const problem_id = parseInt(req.params.id.split(":")[1]);
         const solution = req.body.solution;
         const random = Math.random();
         console.log(random);
         let answer = null;
+        console.log(id);
 
         if (random >= 0.5) {
             answer = "Accepted";
@@ -25,49 +24,81 @@ submitProblemCode = async (req, res) => {
 
         console.log(problem_id);
         console.log(solution);
-        let user_detail = SUBMISSIONS.find(x => x._id === id);
+        let user_detail = await SUBMISSIONS.findOne({ user: id });
 
         console.log(user_detail);
 
-        const index = SUBMISSIONS.findIndex(x => x === user_detail);
-        console.log(index);
+        if (user_detail) {
+            console.log("here!!");
+            const detail = user_detail.problem.filter(x => x.problem_id === problem_id);
+            console.log(detail);
 
-        // console.log(user_detail.hasOwnProperty('problem'));
-        if (user_detail.hasOwnProperty('problem')) {
-            let pp = user_detail.problem;
+            if (detail.length) {
 
-            let temp = pp.find(x => x.problem_id === problem_id);
+                const len = detail[0].submission.length + 1;
+                const result = await SUBMISSIONS.updateOne({
+                    user: id,
+                    "problem.problem_id": problem_id
+                },
+                    {
+                        $push: {
+                            "problem.$.submission": {
+                                solution_id: len,
+                                solution,
+                                Acceptance: answer
 
-            const nindex = pp.findIndex(x => x === temp);
-            // console.log("temp", temp);
-            if (temp) {
+                            }
+                        }
+                    }
+                );
+                console.log(result);
 
-                pp[nindex].submission.push({
-                    solution,
-                    solution_id: pp[nindex].submission.length + 1,
-                    Acceptance: answer
-                })
-                // console.log(pp[nindex].submission);
+
             }
             else {
-                pp.push({ problem_id: problem_id, submission: [{ solution_id: 1, solution, Acceptance: answer }] });
+                const result = await SUBMISSIONS.updateOne({
+                    user: id
+                },
+                    {
+                        $push: {
+                            problem: {
+                                problem_id,
+                                submission: {
+                                    solution_id: 1,
+                                    solution,
+                                    Acceptance: answer
+                                }
+                            }
+                        }
+                    });
 
+                console.log(result);
             }
-            user_detail.problem = pp;
+
+
+
         }
         else {
+            const submission = await SUBMISSIONS.create({
+                user: id,
+                problem: [{
+                    problem_id: problem_id,
+                    submission: [
+                        {
+                            solution_id: 1,
+                            solution,
+                            Acceptance: answer
+                        }
+                    ]
+                }]
 
-            console.log('yahan hora');
-            user_detail = { ...user_detail, problem: [{ problem_id: problem_id, submission: [{ solution_id: 1, solution, Acceptance: answer }] }] }
+            });
+            const result = await submission.save();
+
+            console.log(result);
 
         }
 
-        console.log(user_detail.hasOwnProperty('problem'));
-        console.log(user_detail);
-        // let hh = user_detail.problem;
-        // console.log(hh);
-        SUBMISSIONS[index] = user_detail;
-        console.log(SUBMISSIONS);
         res.status(200).json({ Acceptance: answer })
 
 
@@ -85,21 +116,24 @@ fetchSelectedSubmission = async (req, res) => {
         const id = user.userId;
         // console.log(id);
         console.log(req.params);
-        const problem_id = req.params.id[1];
-        // console.log(problem_id);
-        const user_detail = SUBMISSIONS.find(x => x._id == id);
-        console.log(user_detail);
+        const problem_id = parseInt(req.params.id.split(':')[1]);
+        console.log(problem_id);
 
-        const submissions = user_detail.problem.find(x => x.problem_id === problem_id).submission;
-        // console.log(sub);
-        if (!submissions) {
+        const detail = await SUBMISSIONS.find({
+            user: id,
+        });
+        const problem = detail[0].problem.filter(x => x.problem_id === problem_id);
+        console.log(problem);
+        const result = problem[0].submission;
+        console.log(result);
+        if (!result) {
             return res.status(200).json({ msg: 'No submission yet!' });
         }
 
         // const total_submission = SUBMISSIONS.find(x => x.problem_id == problem_id).total_submission;
 
         // console.log(total_submission);
-        res.status(200).json({ submissions: submissions });
+        res.status(200).json({ submissions: result });
 
     }
     catch (err) {
@@ -109,14 +143,14 @@ fetchSelectedSubmission = async (req, res) => {
 };
 
 
-fetchAllSubmissions = (req, res) => {
+fetchAllSubmissions = async (req, res) => {
     //shows all the submission of user
     try {
         const user = req.user;
         const id = user.userId;
 
-        const user_detail = SUBMISSIONS.find(x => x._id === id);
-        console.log(user_detail.problem);
+        const user_detail = await SUBMISSIONS.findOne({ user: id });
+        console.log(user_detail);
 
 
         const answer = user_detail.problem.map(x => x.submission.map(y => {

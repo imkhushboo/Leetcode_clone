@@ -31,5 +31,4 @@ const BlogSchema= new Schema({
 });
 
 const BLOGS = mongoose.model("blog",BlogSchema);
-// const BLOGS_DETAIL = mongoose.model("blog_details",BlogDetailSchema)
 module.exports = {BLOGS};
