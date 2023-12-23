@@ -28,7 +28,7 @@ export const BlogReducer = (state = profile,action)=>{
       case constant.DELETE_BLOG_FAILED:
         return {...state,'status':500,message:"failed"}
       default :
-        return state;
+        return profile;
     }
  
 

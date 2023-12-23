@@ -22,7 +22,7 @@ export const RenderSelectedProblem =(state=initial_state,action)=>{
             return {...state,message:action.payload,success:false,Acceptance:null,status:500}
 
         default:
-            return state 
+            return state; 
     }
 
 }

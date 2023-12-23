@@ -1,4 +1,7 @@
 import { constant } from '../constant.jsx';
+const baseURL = "http://localhost:3001" || process.env.REACT_APP_PORT;
+
+console.log(baseURL);
 
 
 
@@ -12,7 +15,7 @@ export const fetchBlog = () => {
             dispatch({
                 type: 'loading'
             })
-            const response = await fetch('http://localhost:3001/blog', {
+            const response = await fetch(`http://localhost:3001/blog`, {
                 method: 'GET'
             })
 
@@ -53,7 +56,7 @@ export const addblog = (props) => {
                 throw err;
             }
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3001/blog/add', {
+            const response = await fetch(`http://localhost:3001/blog/add`, {
                 method: 'PUT',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -135,7 +138,7 @@ export const signupUser = ({ email, password }) => {
                 type: 'loading'
             })
 
-            const response = await fetch("http://localhost:3001/signup", {
+            const response = await fetch(`http://localhost:3001/signup`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -180,7 +183,7 @@ export const LogIn = ({ email, password }) => {
             dispatch({
                 type: 'loading'
             })
-            const response = await fetch("http://localhost:3001/login", {
+            const response = await fetch(`http://localhost:3001/login`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -237,6 +240,7 @@ export const LogOut = () => {
 
 
 export const fetchproblems = (pageno) => {
+    console.log(pageno);
     return async (dispatch) => {
         try {
 
@@ -404,7 +408,7 @@ export const fetchsubmission = () => {
             }
 
 
-            const response = await fetch('http://localhost:3001/submissions', {
+            const response = await fetch(`http://localhost:3001/submissions`, {
 
                 method: 'POST',
                 headers: { "Authorization": `Bearer ${token}` },

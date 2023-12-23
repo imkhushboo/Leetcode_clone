@@ -1,15 +1,11 @@
-*{
-    overflow-x: hidden;
-}
 
    .detail-input{
-    @apply flex h-[48%]
+    @apply flex h-3/5 w-full justify-between
    }
 
  .error{
-    height:100% ;
+        height:100% ;
     width: 10%;
-    margin: 2%;
  }  
 
 
@@ -54,25 +50,25 @@
    }
    .detail{ 
 
-    @apply flex flex-col justify-between m-2.5 h-1/5
+    @apply flex flex-col justify-between mx-4 h-1/5
    }
    .btn{
 
-    @apply flex flex-col justify-center items-center h-[30%]
+    @apply flex flex-col justify-center items-center h-1/5
    }
 
-   .btn button{
-    @apply h-[30%] w-[100px] bg-[#83A2F] border-2 divide-solid border-yellow-300 rounded
-   }
+ #signup_button{
+    @apply  h-1/2 w-3/5 hover:bg-slate-500 bg-[#7c7ccf] rounded-lg 
+ }
 
    .btn p{
-    height: 40%;;
+    @apply h-1/2
    }
 
    .detail label{
     @apply h-2/5 border-none
    }
 .detail input{
-    @apply h-full w-4/5 border-2 divide-solid p-1.5 rounded-md border-[#3498db]
+    @apply h-full w-4/5 border-2 divide-solid p-1.5 rounded-md border-[#7f7a97]
 }
 

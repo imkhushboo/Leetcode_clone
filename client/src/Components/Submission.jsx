@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import '../CSS/styleallsubmission.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitcode } from '../redux/actionCreator';
 
@@ -16,7 +15,7 @@ function Submission() {
    },[])
 
   return (
-    <div id='submission'>
+    <div className='overflow-y-scroll h-[90vh]'>
     <table>
         <tr> 
             <td>Solution id </td>

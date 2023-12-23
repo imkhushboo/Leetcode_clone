@@ -122,11 +122,11 @@ function SignUp() {
   
       
         <Formik >
-        <Form className='w-full bg-[#8ACDD7] h-3/5 p-4 border-2 border-black divide-solid text-lg rounded-xl' onSubmit={formik.handleSubmit}>
+        <Form className='flex flex-col justify-around w-full bg-[#5c5b77] h-4/5 border-2  border-[#2f2e49] text-white divide-solid text-lg rounded-xl' onSubmit={formik.handleSubmit}>
         <div className ="detail"> 
-        <label htmlFor="email">Email : </label>
+        <label  htmlFor="email">Email : </label>
         <div className='detail-input'>
-        <Field
+        <Field className="text-black w-[90%]"
                id="email"
                type="email"
                name="email"
@@ -157,7 +157,7 @@ function SignUp() {
         <div className ="detail">
         <label htmlFor="password" >Password : </label>
         <div className="detail-input">
-        <Field
+        <Field className="text-black w-[90%]"
                id="password"
                type="password"
                name="password"
@@ -188,7 +188,7 @@ function SignUp() {
         <div className ="detail"> 
         <label htmlFor="confirmPassword" >Confirm Password :</label>
         <div className='detail-input'>
-        <Field
+        <Field className="text-black h-1/5"
                id="confirmPassword"
                type="password"
                name="confirmPassword"
@@ -214,7 +214,7 @@ function SignUp() {
         
         </div>
         <div className='btn'>
-        <button   disabled={    Object.keys(formik.errors).length ===0 ?false:true} type='submit'> Create Account</button>
+        <button  id='signup_button' disabled={    Object.keys(formik.errors).length ===0 ?false:true} type='submit'> Create Account</button>
         <p>Already have a account? <Link to='/login'>Login</Link></p>
         </div>
         </Form>

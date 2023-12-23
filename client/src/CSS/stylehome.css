@@ -3,13 +3,13 @@ table{
 }
 
 
-button{
-    @apply mx-[2%] w-[10%] rounded-lg
+#toggle_problem{
+    @apply mx-[2%] w-[8%] h-3/5 rounded-md bg-slate-400 hover:bg-slate-500
 }
 
 td,th{
-    @apply h-full w-2/6 border-r border-black border-collapse
+    @apply h-full w-2/6 border-r border-black border-collapse text-lg 
 }
 tr{
-    @apply flex h-[10%] border-b border-black even:bg-gray-100
+    @apply flex h-[10%] border-b border-black  text-white even:bg-gray-100 even:text-black hover:text-blue-400
 }

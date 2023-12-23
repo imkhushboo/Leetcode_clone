@@ -1,8 +1,8 @@
-button{
-    @apply bg-red-500 border-2 border-yellow-300 h-3/5 w-[48%] hover:bg-green-400
+#authentication_button{
+    @apply bg-[#383f5a] border-2 mx-1 border-[#cbced4] h-3/5 text-white w-[30%] hover:bg-[#707277] rounded-lg
 }
 
 li{
-    @apply flex h-full items-center cursor-pointer hover:text-red-500
+    @apply flex h-full items-center text-white cursor-pointer hover:text-[#6563c5]
 }
 

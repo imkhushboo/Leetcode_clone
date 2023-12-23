@@ -2,11 +2,13 @@ const express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 const mongodb = require('./database/db.jsx');
+require('dotenv').config();
+
 
 
 const app = express()
 app.use(express.json())
-const port = 3001
+const port = process.env.REACT_APP_PORT || 3001;
 const corsOptions = {
     origin: '*',
     credentials: true,            //access-control-allow-credentials:true

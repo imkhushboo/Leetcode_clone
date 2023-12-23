@@ -34,7 +34,7 @@ fetchProblem = async (req, res) => {
 
     try {
         const id = parseInt(req.params.id.split(':')[1]);
-        // console.log(id);
+        console.log(id);
         const problem = await QUESTIONS.find({ problem_id: id });
         console.log(problem);
         if (!problem) {

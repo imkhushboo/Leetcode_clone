@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#root{
+    @apply bg-[#100522d0]
+}
+
+*{
+    overflow-x: hidden;
+}

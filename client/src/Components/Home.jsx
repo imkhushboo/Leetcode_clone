@@ -17,10 +17,10 @@ function Home() {
 
     return (
         // <div className='top-top-problem-render'>
-        <div className='bg-green-700 flex flex-col justify-center h-[90vh]'>
-          <div className="text-center font-bold text-3xl h-[10%]"> Problems</div>
+        <div className=' flex flex-col justify-center h-[90vh]'>
+          <div className="text-center font-bold text-3xl text-white h-[10%]"> Problems</div>
           <hr className='bg-gray m-auto h-1 w-[90%]'/>
-            <div className='bg-pink-700 flex flex-col justify-around h-full w-4/5 m-auto'>
+            <div className='bg-[#31233d] flex flex-col justify-around h-full w-4/5 m-auto'>
       <div className='flex flex-col justify-center align-middle h-full w-[90%] m-auto border-2 border-black divide-solid'>
       <table>
         <tr >
@@ -44,13 +44,15 @@ function Home() {
       </table> 
 
       </div>
-       <div className='flex justify-end w-4/5 h-[16%] m-auto'>
-       <button  className='mx-[2%] w-[10%] rounded-lg'onClick={()=>{
+       <div className='flex justify-end w-4/5 h-[16%] m-auto items-center'>
+        &
+       <button id='toggle_problem' className='mx-[2%] w-[10%] rounded-lg'onClick={()=>{
         dispatch(fetchproblems(1));
        }}>1</button>
-      <button className='mx-[2%] w-[10%] rounded-lg' onClick={()=>{
+      <button id='toggle_problem' className='mx-[2%] w-[10%] rounded-lg' onClick={()=>{
          dispatch(fetchproblems(2));
       }}>2</button>
+      &
       </div>
       </div>
         </div>

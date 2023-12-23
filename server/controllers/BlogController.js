@@ -64,18 +64,27 @@ deleteBlog = async (req, res) => {
 
         console.log(newblogs[0]);
 
-        const result = await BLOGS.updateOne(
-            { user: id },
-            {
-                $set: {
-                    blogs: newblogs[0]
+        if (newblogs[0].length === 0) {
+            const res = await BLOGS.updateOne({
+                user: id
+            }, {
+                $pull:
+                {
+                    user: id
                 }
-            }
-        );
+            })
+        }
+        else {
+            const result = await BLOGS.updateOne(
+                { user: id },
+                {
+                    $set: {
+                        blogs: newblogs[0]
+                    }
+                }
+            );
 
-
-
-
+        }
         console.log(result);
 
         res.status(200).json({ msg: 'Succesfully Deleted!!' });
@@ -154,7 +163,7 @@ addBlog = async (req, res) => {
             }
 
 
-
+            console.log('success');
             res.status(200).json("Success!!");
 
         }

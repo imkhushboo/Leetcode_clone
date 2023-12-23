@@ -18,7 +18,6 @@ const BlogSchema= new Schema({
        type:{
         blog_id:{
             type:Number,
-            unique:true,
             require:true
         },
         blog_detail:{

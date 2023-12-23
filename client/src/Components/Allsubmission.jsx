@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import '../CSS/styleallsubmission.css';
 import { Link } from 'react-router-dom';
 import { fetchsubmission } from '../redux/actionCreator';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,16 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function Allsubmission() {
     const dispatch = useDispatch();
-
     const submission = useSelector(state=>state.FetchSubmissionReducer);
-
     useEffect(()=>{
         dispatch(fetchsubmission());
     },[])
  
 
   return (
-    <div className='allsubmission'>
+    <div className='overflow-y-scroll h-[90vh]'>
 
        <table>
         <tr>

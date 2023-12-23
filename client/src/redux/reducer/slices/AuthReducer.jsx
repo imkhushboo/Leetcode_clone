@@ -9,7 +9,8 @@ const initial_state={
     'message':'',
     'token': token,
     'loading':false,
-    'success':false
+    'success':false,
+    'loggedIn':false
 }
 
 
@@ -19,7 +20,7 @@ const initial_state={
     console.log(state);
     switch(action.type){
       case(action.type === 'loading'):
-        return {...state,loading:true};
+        return {loading:true};
        case constant.SIGNUP_SUCCESSFUL:
         return {...state,...action.payload,loading:false,status:200,success:true,message:'Sucessfully Signed up!!'}
     
