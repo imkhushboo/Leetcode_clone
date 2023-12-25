@@ -30,7 +30,7 @@ register = async (req, res) => {
             email: email,
         });
         // console.log(user);
-        SUBMISSIONS.push(user);
+        // SUBMISSIONS.push(user);
         const data = {
             user: {
                 _id: user._id
