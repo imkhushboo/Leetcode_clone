@@ -1,5 +1,5 @@
 import { constant } from '../constant.jsx';
-const baseURL = process.env.REACT_APP_PORT || "http://localhost:3001";
+const baseURL = process.env.REACT_APP_PORT;
 
 console.log(baseURL);
 
