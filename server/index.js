@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const app = express()
 app.use(express.json())
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 const corsOptions = {
     origin: '*',
     credentials: true,            //access-control-allow-credentials:true
@@ -44,7 +44,8 @@ app.use('/', require('./routes/SubmissionRoute.js'));
 
 
 
-app.listen(port, async () => {
+app.listen(port, async (req, res) => {
+    // res.status(301).redirect(`http://localhost:${port}`);
     console.log(`Example app listening on port ${port}`);
     mongodb();
 })
