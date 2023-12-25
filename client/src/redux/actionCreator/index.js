@@ -1,5 +1,5 @@
 import { constant } from '../constant.jsx';
-const baseURL = "http://localhost:3001" || process.env.REACT_APP_PORT;
+const baseURL = "https://keetcode.onrender.com" || process.env.REACT_APP_PORT;
 
 console.log(baseURL);
 
@@ -15,7 +15,7 @@ export const fetchBlog = () => {
             dispatch({
                 type: 'loading'
             })
-            const response = await fetch(`http://localhost:3001/blog`, {
+            const response = await fetch(`https://keetcode.onrender.com/blog`, {
                 method: 'GET'
             })
 
@@ -56,7 +56,7 @@ export const addblog = (props) => {
                 throw err;
             }
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/blog/add`, {
+            const response = await fetch(`https://keetcode.onrender.com/blog/add`, {
                 method: 'PUT',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -95,7 +95,7 @@ export const deleteblog = (blogid) => {
                 return;
             }
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3001/blog/delete/:${blogid}`, {
+            const response = await fetch(`https://keetcode.onrender.com/blog/delete/:${blogid}`, {
                 method: 'DELETE',
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -138,7 +138,7 @@ export const signupUser = ({ email, password }) => {
                 type: 'loading'
             })
 
-            const response = await fetch(`http://localhost:3001/signup`, {
+            const response = await fetch(`https://keetcode.onrender.com/signup`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -183,7 +183,7 @@ export const LogIn = ({ email, password }) => {
             dispatch({
                 type: 'loading'
             })
-            const response = await fetch(`http://localhost:3001/login`, {
+            const response = await fetch(`https://keetcode.onrender.com/login`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -244,7 +244,7 @@ export const fetchproblems = (pageno) => {
     return async (dispatch) => {
         try {
 
-            const response = await fetch(`http://localhost:3001/problemSet/all/:${pageno}`, {
+            const response = await fetch(`https://keetcode.onrender.com/problemSet/all/:${pageno}`, {
                 method: 'POST',
             })
 
@@ -276,7 +276,7 @@ export const fetchselectedproblem = (problem_id) => {
     return async (dispatch) => {
 
         try {
-            const response = await fetch(`http://localhost:3001/problem/:${problem_id}`, {
+            const response = await fetch(`https://keetcode.onrender.com/problem/:${problem_id}`, {
                 method: 'GET',
 
             })
@@ -319,7 +319,7 @@ export const submitProblemcode = ({ text, problem_id }) => {
                 const err = 'First signed up !!';
                 throw err;
             }
-            const response = await fetch(`http://localhost:3001/submit/:${problem_id}`, {
+            const response = await fetch(`https://keetcode.onrender.com/submit/:${problem_id}`, {
                 method: 'POST',
                 headers: {
                     'Access-Control-Allow-Origin': "*",
@@ -366,7 +366,7 @@ export const submitcode = (problem_id) => {
                 const err = 'Try to sign in first';
                 throw err;
             }
-            const response = await fetch(`http://localhost:3001/problems/:${problem_id}/submissions`, {
+            const response = await fetch(`https://keetcode.onrender.com/problems/:${problem_id}/submissions`, {
                 method: 'GET',
                 headers: { "Authorization": `Bearer ${token}` },
             })
@@ -408,7 +408,7 @@ export const fetchsubmission = () => {
             }
 
 
-            const response = await fetch(`http://localhost:3001/submissions`, {
+            const response = await fetch(`https://keetcode.onrender.com/submissions`, {
 
                 method: 'POST',
                 headers: { "Authorization": `Bearer ${token}` },
