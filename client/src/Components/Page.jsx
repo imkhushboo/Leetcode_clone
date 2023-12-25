@@ -80,12 +80,13 @@ function Page() {
       </select>
        </div>
        <div className='h-4/5  border-blue-400 border-solid'>
-           <textarea className='w-full  h-full resize-none  bg-[#4f5072] rounded-md border-[#4e4e69]' id='code' value={text} onChange={(e)=>{setText(e.target.value)}}/>
+           <textarea className='w-full  h-full resize-none  bg-[#4f5072]  border-[#4e4e69] overflow-y-scroll' id='code' value={text} onChange={(e)=>{setText(e.target.value)}}/>
        </div>
        <div className='h-[16%] w-[98%] hidden'>
            <h4>Input Test Case :</h4>
            <textarea className='w-full h-3/5 resize-none bg-[#4f5072]' onChange={(e)=>{console.log(text) ;setTestcase(e.target.value)}} value={testcase} />
        </div>
+      
        <div className='flex justify-end h-[10%]'>
                <button id='submit_btn'>Test Cases</button>
                <button id ='submit_btn'onClick = {runtestcase} type ='submit'>Run code</button>

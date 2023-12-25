@@ -20,7 +20,7 @@ export const ProblemRenderReducer = (state=initial_state,{type,payload}) => {
         case constant.FETCH_PROBLEM_FAILED:
             return {problem:[],success:false,status:500,message:"fetched failed!"} 
         default :
-            return initial_state
+            return state
     }
 
 

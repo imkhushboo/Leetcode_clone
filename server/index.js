@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const app = express()
 app.use(express.json())
-const port = process.env.REACT_APP_PORT || 3001;
+const port = process.env.PORT;
 const corsOptions = {
     origin: '*',
     credentials: true,            //access-control-allow-credentials:true

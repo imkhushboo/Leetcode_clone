@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 async function connectToMongoDb(req,res){
 
     try{
-        await mongoose.connect('mongodb://localhost:27017/leetcode_clone');
+        await mongoose.connect(process.env.MONGODB_URL);
         console.log('connected DB');
 
     }
