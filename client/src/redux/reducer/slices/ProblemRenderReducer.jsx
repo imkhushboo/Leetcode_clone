@@ -1,8 +1,5 @@
 import {constant} from '../../constant';
 
-
-
-
 const initial_state ={
     problem:[],
     status:null,

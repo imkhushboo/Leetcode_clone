@@ -5,7 +5,8 @@ const profile={
     'blogid':null,
     'blog':[],
     'status':'',
-    'message':''
+    'message':'',
+    'fetched':''
 }
 
 
@@ -16,19 +17,19 @@ export const BlogReducer = (state = profile,action)=>{
     switch(action.type)
     {
       case constant.FETCH_BLOG_SUCCESSFUL:
-        return {...state,'blog':action.payload,'status':200,'message':'Successfull fetched blog!'};
+        return {...state,'blog':action.payload,'status':200,'message':'Successfull fetched blog!','fetched':'success'};
       case constant.FETCH_BLOG_FAILED:
-        return {...state,'status':500,'message':'fail'};
+        return {...state,'status':500,'message':'fail','fetched':''};
       case  constant.ADD_BLOG_SUCCESSFUL:
-        return {...state,'status':200,'message':'blog added Sucseesfull'};
+        return {...state,'status':200,'message':'blog added Sucseesfull','fetched':''};
       case  constant.ADD_BLOG_FAILED:
-        return {...state,'status':500,'message':'failed'}
+        return {...state,'status':500,'message':'failed','fetched':'success'}
       case  constant.DELETE_BLOG_SUCCESSFUL:
-        return {...state,'status':200,message:"Deleted blog sucessfully"}
+        return {...state,'status':200,message:"Deleted blog sucessfully",'fetched':''}
       case constant.DELETE_BLOG_FAILED:
-        return {...state,'status':500,message:"failed"}
+        return {...state,'status':500,message:"failed",'fetched':'success'}
       default :
-        return profile;
+        return { ...state,status:200,'fetched':''};
     }
  
 

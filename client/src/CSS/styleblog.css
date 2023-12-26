@@ -4,7 +4,7 @@
 }
 
 #add_blog_btn{
-    @apply bg-[#3b3b74] w-[10%] h-4/5 hover:bg-slate-500 rounded-md text-white m-2 border-[#aeb1df] border-2
+    @apply bg-[#3b3b74] w-[3%] h-4/5 hover:bg-slate-500 rounded-2xl text-white m-2 border-[#aeb1df] border-2
 }
 
 #blog_submit 

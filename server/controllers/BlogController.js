@@ -17,7 +17,7 @@ fetchBlog = async (req, res) => {
 
         let final_temp = [].concat(...temp);
         final_temp = final_temp.sort((a, b) => { a.blog_detail.time < b.blog_detail.time })
-        console.log(final_temp);
+        //console.log(final_temp);
 
         res.status(200).json(final_temp);
 
@@ -30,13 +30,16 @@ fetchBlog = async (req, res) => {
 
 deleteBlog = async (req, res) => {
     try {
+
+        //console.log('here');
         const user = req.user;
         const id = user.userId;
+
         const blogid = parseInt(req.params.id.split(':')[1]);
 
-        console.log(blogid);
+        //console.log(blogid);
 
-        const res = await BLOGS.updateOne({
+        const result1 = await BLOGS.updateOne({
             user: id,
             "blogs.blog_id": blogid
         },
@@ -47,8 +50,8 @@ deleteBlog = async (req, res) => {
                     }
                 }
             });
-        console.log("deleted id", blogid);
-        console.log(res);
+        //console.log("deleted id", blogid);
+        //console.log(result1);
 
 
         let len = 1;
@@ -62,17 +65,15 @@ deleteBlog = async (req, res) => {
 
         }));
 
-        console.log(newblogs[0]);
+        //console.log(newblogs[0]);
 
         if (newblogs[0].length === 0) {
-            const res = await BLOGS.updateOne({
+            //console.log('herrr');
+            const result = await BLOGS.deleteOne({
                 user: id
-            }, {
-                $pull:
-                {
-                    user: id
-                }
-            })
+            });
+
+            //console.log(result);
         }
         else {
             const result = await BLOGS.updateOne(
@@ -82,15 +83,19 @@ deleteBlog = async (req, res) => {
                         blogs: newblogs[0]
                     }
                 }
+
             );
+            //console.log(result);
 
         }
-        console.log(result);
 
-        res.status(200).json({ msg: 'Succesfully Deleted!!' });
+
+
+        res.status(200).json({ msg: 'successfully done' });
 
 
     } catch (err) {
+        //console.log(err);
         res.status(500).json({ msg: err });
     }
 };
@@ -99,17 +104,17 @@ deleteBlog = async (req, res) => {
 
 addBlog = async (req, res) => {
     try {
-        // console.log(req);
+        // //console.log(req);
         const user = req.user;
         const user_id = user.userId;
         const email = user.email;
         let blogid = req.body.blogid;
-        // console.log(user);
-        console.log(user_id);
-        console.log(email);
+        // //console.log(user);
+        //console.log(user_id);
+        //console.log(email);
 
         const user_details = await BLOGS.findOne({ user: user_id });
-        console.log(user_details);
+        //console.log(user_details);
 
         if (!user_details) {
             let blogs = await BLOGS.create(
@@ -123,7 +128,7 @@ addBlog = async (req, res) => {
                 }
             )
             await blogs.save();
-            // console.log(blogs);
+            // //console.log(blogs);
 
         }
         else {
@@ -131,7 +136,7 @@ addBlog = async (req, res) => {
             const blog = await BLOGS.findOne({ user: user_id });
 
             var len = blog.blogs.length;
-            console.log(len);
+            //console.log(len);
 
             if (!blogid) {
                 const result = await BLOGS.updateOne({
@@ -145,7 +150,7 @@ addBlog = async (req, res) => {
                             }
                         }
                     });
-                console.log(result);
+                //console.log(result);
             }
             else {
                 const result = await BLOGS.updateOne(
@@ -159,11 +164,11 @@ addBlog = async (req, res) => {
                         }
                     },
                 );
-                console.log(result);
+                //console.log(result);
             }
 
 
-            console.log('success');
+            //console.log('success');
             res.status(200).json("Success!!");
 
         }

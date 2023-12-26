@@ -44,15 +44,15 @@ function Home() {
       </table> 
 
       </div>
-       <div className='flex justify-end w-4/5 h-[16%] m-auto items-center'>
-        &
+       <div className='flex justify-end w-4/5 h-[16%] m-auto items-center text-white'>
+        &lt;
        <button id='toggle_problem' className='mx-[2%] w-[10%] rounded-lg'onClick={()=>{
         dispatch(fetchproblems(1));
        }}>1</button>
       <button id='toggle_problem' className='mx-[2%] w-[10%] rounded-lg' onClick={()=>{
          dispatch(fetchproblems(2));
       }}>2</button>
-      &
+      &gt;
       </div>
       </div>
         </div>

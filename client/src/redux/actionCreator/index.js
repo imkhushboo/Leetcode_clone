@@ -12,9 +12,7 @@ export const fetchBlog = () => {
 
 
         try {
-            dispatch({
-                type: 'loading'
-            })
+
             const response = await fetch(`${baseURL}/blog`, {
                 method: 'GET'
             })
@@ -46,9 +44,7 @@ export const addblog = (props) => {
     return async (dispatch) => {
 
         try {
-            dispatch({
-                type: 'loading'
-            })
+
             const temp = { blogid: props.blogid, blogdetail: { title: props.title, description: props.description, time: props.time } };
 
             if (!localStorage.getItem('token')) {
@@ -73,7 +69,6 @@ export const addblog = (props) => {
             dispatch({
                 type: constant.ADD_BLOG_SUCCESSFUL
             })
-            fetchBlog();
         }
         catch (err) {
             dispatch({
@@ -86,9 +81,7 @@ export const addblog = (props) => {
 
 export const deleteblog = (blogid) => {
     return async (dispatch) => {
-        dispatch({
-            type: 'loading'
-        })
+
         try {
             let temp = confirm('Do you want to delete the Blog ?');
             if (!temp) {
@@ -103,6 +96,7 @@ export const deleteblog = (blogid) => {
             })
 
             const json = await response.json();
+            console.log(json);
 
             if (response.status !== 200) {
                 const err = json.msg;
@@ -114,7 +108,7 @@ export const deleteblog = (blogid) => {
                 type: constant.DELETE_BLOG_SUCCESSFUL
             })
 
-            fetchBlog();
+
 
         } catch (err) {
             dispatch({

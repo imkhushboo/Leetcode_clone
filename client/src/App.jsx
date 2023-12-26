@@ -23,6 +23,7 @@ function App() {
 
     <Navbar />
     <Routes>
+    <Route path='/' element={<SignUp/>}></Route>
     <Route exact path="/problemSet/all"  element={<Home />}  />
     <Route path="/problem/:1" element={<Page/>} />
     <Route  path="/signup" element={<SignUp/>} />

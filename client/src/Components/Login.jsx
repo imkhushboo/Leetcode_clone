@@ -76,7 +76,7 @@ function Login() {
         else if(profile.loading === true){
             toast.loading('Logging up ...!');
         } 
-    },[profile])
+    },[profile.loggedIn])
   
 
     const formik = useFormik({

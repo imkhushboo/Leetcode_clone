@@ -65,7 +65,11 @@ function SignUp() {
     const profile = useSelector(state=>state.AuthReducer);
     useEffect(()=>{
         console.log(profile);
-        if(profile.loggedIn == true && profile.status === 200 && profile.success === true)
+        if(profile.email==='' && profile.loggedIn === false && profile.status === 200 && profile.success === true)
+        {
+           navigate('/signup');
+        }
+        else if( profile.register && (profile.status === 200 && profile.success === true))
          {
              toast.success(profile.message);
               

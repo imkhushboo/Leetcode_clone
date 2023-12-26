@@ -21,25 +21,30 @@ function Blog() {
 
 
     useEffect(()=>{
-      dispatch(fetchBlog());
-      console.log(profile);
-     
     
-      if(profile.status === 200 )
+
+      if(profile.status === 200 && profile.fetched !=='success')
       {
-        toast.success(profile.message);
+        dispatch(fetchBlog());
+          if(profile.status === 200 )
+          {
+            toast.success(profile.message);
+          }
+          else if(profile.status === 500)
+          {
+            toast.error(profile.message);
+          }
+          else if(profile.loading === true){
+            toast.loading('loading ....');
+          }
+
       }
-      else if(profile.status === 500)
-      {
-        toast.error(profile.message);
-      }
-      else if(profile.loading === true){
-        toast.loading('loading ....');
-      }
+          
+    
   
       
       
-      },[]);
+      },[profile.fetched]);
 
       
   const handleblogsubmit = (e) =>{
@@ -51,18 +56,21 @@ function Blog() {
 
   const handleblogdelete = (blog_id) =>{
     dispatch(deleteblog(blog_id));
-    // dispatch(fetchBlog())
-
   }
 
 
   return (
 
-    <div id="blog" className='mt-[5%] m-auto w-[98%] h-[90vh]  text-white'>
+    <div  className='mt-[5%] m-auto w-[98%]  text-white'>
     <div className='flex w-full justify-between items-center h-[10%]'>
     <h4 className='text-3xl ml-[5%] font-bold'>Blogs</h4>
-    <button id='add_blog_btn' className='w-1/5 h-2/5'onClick={()=>{setTitle('');setDescription('');setTime(Date());modal.showModal();}}> add blog</button>
-    {<dialog className='m-auto h-[50vh] w-3/5  'id='modal' >
+    {
+    email !== ''?
+    <button id='add_blog_btn' onClick={()=>{setTitle('');setDescription('');setTime(Date());modal.showModal();}}> <i className="fa fa-plus fa-circle " aria-hidden="true"></i>
+    </button>
+    :<></>
+    }
+    {<dialog className='m-auto h-[50vh] w-3/5'id='modal' >
       <div className="flex flex-col h-full w-full justify-between bg-[#5e5b6b]  text-white">
     <div className='flex justify-around items-center h-1/5'>
     <h1 className='text-lg '>Blog</h1>
@@ -85,23 +93,22 @@ function Blog() {
     }
     </div>
     <hr className='bg-gray-100 w-[98%] h-0.5'/>
-    <div className='overflow-y-scroll h-full'>
+    <div className='overflow-y-scroll h-[78vh] mt-1'>
     {profile.blog.map(blog =>
     {
-        return    <div key={blog.blog_id}className="w-[98%] border-2 my-2 divide-solid mt-auto rounded-lg bg-[#5e5b6b]" >
-                  <div >
+        return    <div key={blog.blog_id}className=" w-[98%] h-fit  border-2 my-2 divide-solid mt-auto rounded-lg bg-[#5e5b6b]" >
+                  <div  className='h-4/5 flex flex-col'>
                   <p className='text-lg '>Last Updated: {blog.blog_detail.time}</p>
                   <h2 className='title'>{blog.blog_detail.title}</h2>
                   <p className='description'>{blog.blog_detail.description}</p> 
-              
-
                   </div>
                   {email === blog.email?
                   <div className="flex justify-end h-1/5">
                   <button  id="update_btn" onClick={()=>{setBlogid(blog.blog_id);setTitle(blog.blog_detail.title ); setDescription(blog.blog_detail.description); setTime(blog.blog_detail.time);modal.showModal(); }}>Update</button>
-                  <button id='delete_btn' onClick={(e) => {handleblogdelete(blog.blog_id);navigate(0);}}>Delete</button>
+                  <button id='delete_btn' onClick={(e) => {handleblogdelete(blog.blog_id);}}>Delete</button>
                   </div>:
-                      <h1 className='text-sm'>Written By: {blog.email}</h1>}
+                      <h1 className='text-sm'>Written By: {blog.email}</h1>
+     }
       
    
     </div>
@@ -117,5 +124,9 @@ function Blog() {
 
   )
 }
+
+
+
+
 
 export default Blog
