@@ -138,7 +138,7 @@ function SignUp() {
                onChange={formik.handleChange}
                value={formik.values.email}
                onBlur={formik.handleBlur}
-             />
+             /> 
         {
         (formik.touched.email) ? 
         <div className='error'> 

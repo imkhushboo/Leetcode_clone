@@ -11,7 +11,12 @@ const initial_state={
     'loading':false,
     'success':false,
     'loggedIn':false,
-    'register':false
+    'register':false,
+    'name':'',
+    'location':'',
+    'gender':'',
+    'birthday':'',
+    'image':''
 }
 
 
@@ -37,7 +42,11 @@ const initial_state={
       
        case constant.LOGIN_FAILED:
         return {...state,status:500,loggedIn:true,loading:false,success:false,message:"Logout failed!"}
-      
+
+        case constant.UPDATE_PROFILE_SUCCESSFUL:
+          return {...state,...action.payload,status:200,message:'profile updated successfully!'}
+        case constant.UPDATE_PROFILE_FAILED:
+          return {...state,status:500,message:'profile not updated!'}
        default:
         return state;
 

@@ -4,6 +4,38 @@ const baseURL = process.env.REACT_APP_PORT || "https://keetcode.onrender.com"
 console.log(baseURL);
 
 
+//update Profile
+export const updateProfile = (props) => {
+    return async (dispatch) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${baseURL}/updateProfile`, {
+                method: 'PUT',
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: props
+            });
+
+            const json = await response.json();
+            console.log(json);
+            if (response.status !== 200) {
+                const error = "there is error!!";
+                throw error;
+            }
+            dispatch({
+                type: constant.UPDATE_PROFILE_SUCCESSFUL,
+                payload: json
+            })
+        } catch (err) {
+            dispatch({
+                type: constant.UPDATE_PROFILE_FAILED
+            });
+        }
+    }
+}
+
+
 
 //BLOGS
 
@@ -199,7 +231,7 @@ export const LogIn = ({ email, password }) => {
             localStorage.setItem('token', json.token);
             dispatch({
                 type: constant.LOGIN_SUCCESSFUL,
-                payload: { email, password, token: json.token }
+                payload: { email, password, token: json.token, image: json.image, name: json.name, gender: json.gender, location: json.location, birthday: json.birthday }
             })
 
         } catch (err) {

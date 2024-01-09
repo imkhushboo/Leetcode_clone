@@ -11,7 +11,23 @@ const UserSchema= new Schema({
     password:{
         type:String,
         require:true,
+    },
+    name:{
+        type:String,
+    },
+    gender:{
+        type:String
+    },
+    birthday:{
+        type:Date
+    },
+    location:{
+        type:String
+    },
+    image:{
+        type:String
     }
+
 });
 
 const USERS = mongoose.model("user",UserSchema);

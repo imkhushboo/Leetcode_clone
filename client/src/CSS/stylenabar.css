@@ -6,3 +6,6 @@ li{
     @apply flex h-full items-center text-white cursor-pointer hover:text-[#6563c5]
 }
 
+#mebutton{
+    @apply  text-[#9797c0] border-2 border-[#d4d1df] rounded-full w-[60px] h-[60px]
+}

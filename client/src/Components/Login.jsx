@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-// import '../CSS/stylesignup.css';
+import '../CSS/stylesignup.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Toaster, toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { LogIn } from '../redux/actionCreator';
+
 
 
 
@@ -116,13 +117,13 @@ function Login() {
 
     
   return (
-      <div className='flex items-center h-[90vh] justify-center text-white'>
+      <div className='flex items-center h-[90vh] justify-center'>
         <Formik>
          <Form className='bg-gray h-3/5 w-[30%] bg-[#5c5b77] flex flex-col justify-around border-2 border-[#2f2e49] divide-solid rounded-xl' onSubmit={formik.handleSubmit}>
         <div  id="detail" className ="flex flex-col h-[30%] w-4/5 m-auto justify-between"> 
-        <label className='w-full text-xl 'htmlFor="email">Email : </label>
+        <label className='w-full text-xl text-white'htmlFor="email">Email : </label>
         <div id= "detail-input" className="flex h-3/5">
-        <Field className="h-full w-[90%] text-black rounded-lg border-[#252553] border-2 "id="email" type="email" placeholder='Email Address'  onBlur={formik.handleBlur} value={formik.values.email}  onChange={formik.handleChange} />
+        <Field className="h-full w-[90%] rounded-lg border-[#252553] border-2 "id="email" type="email" placeholder='Email Address'  onBlur={formik.handleBlur} value={formik.values.email}  onChange={formik.handleChange} />
         {formik.touched.email?
         <div className="error">
                     {formik.errors.email ? 
@@ -138,9 +139,9 @@ function Login() {
        
         </div>
         <div id="detail" className ="flex flex-col h-[30%] w-4/5 m-auto justify-between">
-        <label className="w-full text-lg "htmlFor="password" >Password : </label>
+        <label className="w-full text-lg text-white"htmlFor="password" >Password : </label>
         <div id="detail-input" className=' flex h-3/5'>
-        <Field className="h-full w-[90%] text-black rounded-lg border-2 border-[#252553]" id="password" type="password" placeholder='Enter Password'  onBlur={formik.handleBlur} value={formik.values.password}  onChange={formik.handleChange} />
+        <Field className="h-full w-[90%] rounded-lg border-2 border-[#252553]" id="password" type="password" placeholder='Enter Password'  onBlur={formik.handleBlur} value={formik.values.password}  onChange={formik.handleChange} />
         {formik.touched.password?
         <div className="error">
                     {formik.errors.password ? 
@@ -155,7 +156,7 @@ function Login() {
         </div>
         </div>
         <div className='flex justify-center h-1/5'>
-        <button className='h-4/5 w-3/5 rounded-lg hover:bg-slate-500 bg-[#7c7ccf]'type='submit'> Login </button>
+        <button className='h-4/5 w-3/5 rounded-lg hover:bg-slate-500 bg-[#7c7ccf] text-white'type='submit'> Login </button>
         </div>
         </Form>
         </Formik>

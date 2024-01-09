@@ -66,8 +66,8 @@ login = async (req, res) => {
         }
 
         const hashedpassword = detail.password;
-        const compare_password = bcrypt.compare(password, hashedpassword);
-
+        const compare_password = await bcrypt.compare(password, hashedpassword);
+        console.log(compare_password);
         if (compare_password) {
             var token = jwt.sign(
                 {
@@ -75,7 +75,7 @@ login = async (req, res) => {
                     email: detail.email
                 }, JWT_S, { expiresIn: "24h" });
 
-            res.status(200).json({ token });
+            res.status(200).json({ token, name: detail.name || '', image: detail.image || '', gender: detail.gender || '', location: detail.location || '', birthday: detail.birthday || '' });
         }
         else {
             const err = 'Wrong password';
@@ -89,4 +89,45 @@ login = async (req, res) => {
 
 };
 
-module.exports = { register, login };
+
+updateProfile = async (req, res) => {
+    try {
+        const user = req.user;
+        const user_id = user.userId;
+        const temp = req.body;
+
+        const updateObject = {};
+        if (temp.name) {
+            updateObject.name = temp.name;
+        }
+
+        if (req.file) {
+            const imageName = req.file.originalname;
+            updateObject.image = imageName;
+        }
+
+        if (temp.location) {
+            updateObject.location = temp.location;
+        }
+
+        if (temp.gender) {
+            updateObject.gender = temp.gender;
+        }
+
+        if (temp.birthday) {
+            updateObject.birthday = temp.birthday;
+        }
+
+        const response = await USERS.updateOne({ _id: user_id }, { $set: updateObject });
+        console.log(response);
+        const user_detail = await USERS.findOne({ _id: user_id });
+
+        res.status(200).json(user_detail);
+
+    } catch (err) {
+        res.status(500).json({ 'msg': err });
+    }
+
+}
+
+module.exports = { register, login, updateProfile };

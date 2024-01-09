@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #root{
-    @apply bg-[#100522d0]
+    @apply bg-[#100522d0] h-[100vh]
 }
 
 *{

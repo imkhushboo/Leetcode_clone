@@ -24,13 +24,14 @@ function App() {
   
   return(
     <BrowserRouter>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="flex  items-center justify-center h-3/5"><div className="text-white"><i className="fa fa-spinner fa-spin"></i>
+Loading...</div></div>}>
 
     <Toaster  autoClose={4000}/>
 
     <Navbar />
     <Routes>
-    <Route path='/' element={<SignUp/>}></Route>
+    <Route path='/' element={<Loginprotected><SignUp/></Loginprotected>}></Route>
     <Route exact path="/problemSet/all"  element={<Home />}  />
     <Route path="/problem/:1" element={<Page/>} />
     <Route  path="/signup" element={<SignUp/>} />

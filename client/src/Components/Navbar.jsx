@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../CSS/stylenabar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { LogOut } from '../redux/actionCreator';
@@ -14,6 +14,9 @@ function Navbar() {
   const dispatch = useDispatch();
 
   const profile = useSelector(state=>state.AuthReducer);
+  const imagename = profile.image? profile.image :'avatar.png';
+  const profileimage = `static/images/${imagename}`;
+
   return (
     <div className='bg-[#12172e] flex justify-between w-full h-[10vh] text-lg items-center'>
       <Toaster />
@@ -32,7 +35,13 @@ function Navbar() {
             <button id='authentication_button'  onClick={()=>{ navigate('/login')}}>Login</button>
             </> 
            :
+           <>
+           <button >
+            <img  id='mebutton' src= {profileimage} onClick={()=>{navigate('/me')}}></img>
+            </button>
            <button id='authentication_button' onClick={()=>{dispatch(LogOut());}}>Log Out</button>
+           </>
+         
            }
         </div> 
             

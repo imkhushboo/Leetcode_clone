@@ -3,11 +3,10 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 const mongodb = require('./database/db.jsx');
 require('dotenv').config();
-
-
-
 const app = express()
 app.use(express.json())
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 const port = process.env.PORT || 3001;
 const corsOptions = {
     origin: '*',
