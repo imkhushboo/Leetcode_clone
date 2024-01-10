@@ -12,7 +12,7 @@ function Me() {
   const profile = useSelector(state =>state.AuthReducer);
   const navigate = useNavigate();
   const imagename = profile.image ? profile.image :'avatar.png';
-  const [profileimage,setProfileimage] = useState(`static/images/${imagename}`);
+  const [profileimage,setProfileimage] = useState(`../client/public/static/images/${imagename}`);
   const [selectedfile,setSelectedFile]= useState(null);
   const dispatch = useDispatch();
 
